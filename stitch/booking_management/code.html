@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Booking Management | Operations Hub</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#000a1e",
+                        "primary-fixed-dim": "#aec7f6",
+                        "surface-tint": "#465f88",
+                        "primary-fixed": "#d6e3ff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#009c6b",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#515f74",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#001b3d",
+                        "inverse-primary": "#aec7f6",
+                        "primary-container": "#002147",
+                        "on-secondary-container": "#57657a",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "secondary-container": "#d5e3fc",
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-container": "#708ab5",
+                        "on-background": "#191c1e",
+                        "on-surface-variant": "#44474e",
+                        "tertiary-container": "#002718",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "secondary-fixed": "#d5e3fc",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-variant": "#e0e3e5",
+                        "outline": "#74777f",
+                        "background": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "tertiary": "#000d06",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-surface": "#2d3133",
+                        "on-error-container": "#93000a"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Execution from JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#000a1e] backdrop-blur-md bg-opacity-95 flex flex-col py-8 z-50">
+<div class="px-6 mb-12">
+<h1 class="text-xl font-bold tracking-tight text-white">Operations Hub</h1>
+<p class="text-xs text-[#515f74] font-semibold tracking-widest uppercase mt-1">Academic Monolith</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white transition-colors hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label font-semibold text-sm">Dashboard</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white transition-colors hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined mr-3">menu_book</span>
+<span class="font-label font-semibold text-sm">Catalogue</span>
+</a>
+<a class="flex items-center px-6 py-3 border-l-4 border-[#6ffbbe] bg-white/10 text-white font-semibold group" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">event_available</span>
+<span class="font-label text-sm">Bookings</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white transition-colors hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined mr-3">report_problem</span>
+<span class="font-label font-semibold text-sm">Incidents</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white transition-colors hover:bg-white/5 group" href="#">
+<span class="material-symbols-outlined mr-3">admin_panel_settings</span>
+<span class="font-label font-semibold text-sm">Admin</span>
+</a>
+</nav>
+<div class="mt-auto px-6 space-y-4">
+<button class="w-full bg-gradient-to-b from-primary to-primary-container text-white py-3 rounded-xl font-semibold text-sm shadow-xl flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">add</span> Quick Action
+            </button>
+<div class="pt-6 border-t border-white/5 space-y-2">
+<a class="flex items-center text-[#515f74] hover:text-white text-sm py-2 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">help_outline</span> Support
+                </a>
+<a class="flex items-center text-[#515f74] hover:text-white text-sm py-2 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">settings</span> Settings
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="pl-64 min-h-screen">
+<!-- TopAppBar (Execution from JSON) -->
+<header class="sticky top-0 h-20 bg-surface dark:bg-[#000a1e] flex justify-between items-center w-full px-16 z-40">
+<h2 class="text-2xl font-black text-[#000a1e] dark:text-white">Bookings</h2>
+<div class="flex items-center gap-6">
+<div class="relative w-80">
+<input class="w-full bg-surface-container-high border-none rounded-full px-5 py-2 text-sm focus:ring-2 focus:ring-surface-tint" placeholder="Search bookings..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-2 text-secondary text-lg">search</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-[#f2f4f6] dark:hover:bg-[#002147] rounded-full p-2 transition-transform hover:scale-110">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden ml-2 bg-secondary-container">
+<img alt="User Profile with Google OAuth" data-alt="professional portrait of a university administrator in a modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvq4rEqxPe7s18Mx4DSEwwRHRZydzQhzjhgbaCT81rhQiAB5QxFzz3I4eCN3nci3OZf6TfTtZL9oIrwxJAwFTcF0XBlrHfl5FgKptKPZ580SuE_qja3nd6ukW2wPLtJF4SEVDdgMJ-3Ad97KUN3KcWO--KkQK9IeoJ6p77s2KyLwq5rfWb2lAUQ9ljg4A3CSL4sy-V0UpCKmyHFm3E00BwXEaNALhLPOMSaBAunDEFG1DUo5_zpt0mPZBSeToswI_LnVLDaxWXTHSB"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="p-16 space-y-12">
+<!-- Section 1: Top Actions & Conflict Timeline (Bento Style) -->
+<div class="grid grid-cols-12 gap-6">
+<!-- New Booking Form Card -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-xl p-8 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-bold tracking-tight">Request Resource</h3>
+<span class="material-symbols-outlined text-secondary-fixed-dim">edit_calendar</span>
+</div>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary">Resource &amp; Purpose</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm focus:ring-2 focus:ring-primary">
+<option>Main Auditorium - North Wing</option>
+<option>Executive Boardroom 4B</option>
+<option>Digital Media Lab</option>
+</select>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary">Date</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm" type="date"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary">Time</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm" type="time"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary">Expected Attendees</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl p-4 text-sm" placeholder="0" type="number"/>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition-all" type="submit">
+                            Submit Request
+                        </button>
+</form>
+</div>
+<!-- Timeline / Conflict Prevention -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-low rounded-xl p-8 overflow-hidden">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="text-xl font-bold tracking-tight">Schedule Overview</h3>
+<p class="text-sm text-secondary">Conflict detection for Wednesday, Oct 24</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 rounded-lg bg-surface-container-highest text-primary">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-highest text-primary">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="relative mt-4 h-64 border-l border-outline-variant/15 flex flex-col justify-between">
+<!-- Hour Markers -->
+<div class="flex items-center gap-4 text-[10px] font-bold text-secondary-fixed-dim uppercase tracking-widest">
+<span class="w-12">09:00 AM</span>
+<div class="h-px flex-1 bg-outline-variant/10"></div>
+</div>
+<div class="flex items-center gap-4 text-[10px] font-bold text-secondary-fixed-dim uppercase tracking-widest">
+<span class="w-12">12:00 PM</span>
+<div class="h-px flex-1 bg-outline-variant/10"></div>
+</div>
+<div class="flex items-center gap-4 text-[10px] font-bold text-secondary-fixed-dim uppercase tracking-widest">
+<span class="w-12">03:00 PM</span>
+<div class="h-px flex-1 bg-outline-variant/10"></div>
+</div>
+<!-- Schedule Blocks -->
+<div class="absolute inset-y-0 left-16 right-0">
+<!-- Block 1 -->
+<div class="absolute top-4 left-[10%] right-[40%] bg-primary-container text-white p-3 rounded-xl shadow-md border-l-4 border-tertiary-fixed">
+<p class="text-[10px] font-bold opacity-70">09:30 - 11:30</p>
+<p class="text-xs font-semibold">Faculty Senate Meeting</p>
+</div>
+<!-- Block 2 (Current Request Shadow) -->
+<div class="absolute top-28 left-[35%] right-[20%] bg-surface-container-highest border-2 border-dashed border-primary/20 p-3 rounded-xl flex items-center justify-center">
+<p class="text-[10px] font-black text-primary/40 uppercase tracking-widest">Selected Slot</p>
+</div>
+<!-- Block 3 -->
+<div class="absolute bottom-4 left-[50%] right-[5%] bg-[#000a1e]/5 text-primary p-3 rounded-xl border-l-4 border-secondary">
+<p class="text-[10px] font-bold text-secondary">02:00 - 05:00</p>
+<p class="text-xs font-semibold">Open Coding Bootcamp</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Booking List & Admin Controls -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="p-8 flex items-center justify-between bg-surface-container-low/50">
+<h3 class="text-xl font-bold tracking-tight">Recent Bookings</h3>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-xs font-bold uppercase tracking-widest text-secondary hover:text-primary transition-colors">Export CSV</button>
+<button class="px-4 py-2 bg-surface-container-highest rounded-full text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">filter_list</span> Filter
+                        </button>
+</div>
+</div>
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-8 py-4 font-label font-medium text-xs text-on-surface-variant uppercase tracking-widest">Resource</th>
+<th class="px-8 py-4 font-label font-medium text-xs text-on-surface-variant uppercase tracking-widest">Requested By</th>
+<th class="px-8 py-4 font-label font-medium text-xs text-on-surface-variant uppercase tracking-widest">Schedule</th>
+<th class="px-8 py-4 font-label font-medium text-xs text-on-surface-variant uppercase tracking-widest">Status</th>
+<th class="px-8 py-4 font-label font-medium text-xs text-on-surface-variant uppercase tracking-widest">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Row 1: Pending (Admin View) -->
+<tr class="hover:bg-surface-container-low/20 transition-colors">
+<td class="px-8 py-6">
+<div class="font-bold text-sm">Main Auditorium</div>
+<div class="text-xs text-secondary">Capacity: 250 • AV Required</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[10px] font-bold">DR</div>
+<div>
+<div class="text-sm font-semibold">Dr. Sarah Richards</div>
+<div class="text-[10px] text-secondary">Department of Science</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="text-sm font-medium">Oct 28, 2023</div>
+<div class="text-xs text-secondary">09:00 AM - 12:00 PM</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-on-secondary-container/20 text-on-secondary-container rounded-full text-[10px] font-black uppercase tracking-tighter">Pending</span>
+</td>
+<td class="px-8 py-6">
+<div class="flex gap-2">
+<button class="p-2 bg-tertiary-fixed/30 text-on-tertiary-fixed-variant rounded-lg hover:bg-tertiary-fixed/50 transition-colors">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+</button>
+<button class="p-2 bg-error-container/30 text-on-error-container rounded-lg hover:bg-error-container/50 transition-colors">
+<span class="material-symbols-outlined text-lg">cancel</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Approved -->
+<tr class="hover:bg-surface-container-low/20 transition-colors">
+<td class="px-8 py-6">
+<div class="font-bold text-sm">Meeting Room 402</div>
+<div class="text-xs text-secondary">Boardroom • Video Conf</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold">JM</div>
+<div>
+<div class="text-sm font-semibold">James Miller</div>
+<div class="text-[10px] text-secondary">HR Operations</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="text-sm font-medium">Oct 25, 2023</div>
+<div class="text-xs text-secondary">02:30 PM - 03:30 PM</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-tertiary-fixed/30 text-on-tertiary-fixed-variant rounded-full text-[10px] font-black uppercase tracking-tighter">Approved</span>
+</td>
+<td class="px-8 py-6">
+<button class="text-secondary hover:text-primary p-2">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Rejected -->
+<tr class="hover:bg-surface-container-low/20 transition-colors">
+<td class="px-8 py-6">
+<div class="font-bold text-sm">Campus Garden</div>
+<div class="text-xs text-secondary">Outdoor Space</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center text-[10px] font-bold">AL</div>
+<div>
+<div class="text-sm font-semibold">Anna Lopez</div>
+<div class="text-[10px] text-secondary">Student Union</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<div class="text-sm font-medium">Nov 02, 2023</div>
+<div class="text-xs text-secondary">All Day</div>
+</td>
+<td class="px-8 py-6">
+<span class="px-3 py-1 bg-error-container text-on-error-container rounded-full text-[10px] font-black uppercase tracking-tighter">Rejected</span>
+</td>
+<td class="px-8 py-6">
+<button class="text-secondary hover:text-primary p-2">
+<span class="material-symbols-outlined">info</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="p-6 bg-surface-container-low/20 flex justify-center">
+<button class="text-xs font-bold uppercase tracking-widest text-primary flex items-center gap-2 hover:opacity-70 transition-opacity">
+                        View Complete Audit Log <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Feedback -->
+<div class="fixed bottom-12 right-12 flex flex-col gap-4">
+<div class="bg-primary text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4">
+<div class="w-8 h-8 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div>
+<p class="text-xs font-bold uppercase tracking-widest text-secondary-fixed-dim">Status Update</p>
+<p class="text-sm font-semibold">Booking #4402 has been approved.</p>
+</div>
+<button class="ml-4 opacity-50 hover:opacity-100">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</div>
+</body></html>
