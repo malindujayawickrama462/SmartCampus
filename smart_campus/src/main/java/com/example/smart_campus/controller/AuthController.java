@@ -4,7 +4,6 @@ import com.example.smart_campus.model.User;
 import com.example.smart_campus.model.Role;
 import com.example.smart_campus.repository.UserRepository;
 import com.example.smart_campus.security.JwtUtils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,12 +13,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
+
+    public AuthController(UserRepository userRepository, JwtUtils jwtUtils, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     // GET /api/auth/me - Get current logged-in user info
     @GetMapping("/me")

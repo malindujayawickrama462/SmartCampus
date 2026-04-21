@@ -3,7 +3,6 @@ package com.example.smart_campus.service;
 import com.example.smart_campus.exception.*;
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class TicketService {
 
     private final TicketRepository ticketRepository;
@@ -23,6 +21,18 @@ public class TicketService {
     private final TicketCommentRepository ticketCommentRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+
+    public TicketService(TicketRepository ticketRepository, 
+                         TicketImageRepository ticketImageRepository,
+                         TicketCommentRepository ticketCommentRepository,
+                         UserRepository userRepository,
+                         NotificationService notificationService) {
+        this.ticketRepository = ticketRepository;
+        this.ticketImageRepository = ticketImageRepository;
+        this.ticketCommentRepository = ticketCommentRepository;
+        this.userRepository = userRepository;
+        this.notificationService = notificationService;
+    }
 
     @Value("${app.upload.dir}")
     private String uploadDir;

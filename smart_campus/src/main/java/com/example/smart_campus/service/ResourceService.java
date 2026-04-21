@@ -5,17 +5,19 @@ import com.example.smart_campus.model.Resource;
 import com.example.smart_campus.model.ResourceStatus;
 import com.example.smart_campus.model.ResourceType;
 import com.example.smart_campus.repository.ResourceRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class ResourceService {
 
     private final ResourceRepository resourceRepository;
+
+    public ResourceService(ResourceRepository resourceRepository) {
+        this.resourceRepository = resourceRepository;
+    }
 
     public List<Resource> getAll() {
         return resourceRepository.findAll();

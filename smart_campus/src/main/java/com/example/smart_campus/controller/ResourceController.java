@@ -5,7 +5,6 @@ import com.example.smart_campus.model.ResourceStatus;
 import com.example.smart_campus.model.ResourceType;
 import com.example.smart_campus.service.ResourceService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,10 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/resources")
-@RequiredArgsConstructor
 public class ResourceController {
 
     private final ResourceService resourceService;
+
+    public ResourceController(ResourceService resourceService) {
+        this.resourceService = resourceService;
+    }
 
     // GET /api/resources - Get all or filtered resources (public)
     @GetMapping
