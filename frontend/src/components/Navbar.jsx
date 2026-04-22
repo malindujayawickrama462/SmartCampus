@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, Home, Calendar, LayoutGrid, AlertCircle, ShieldCheck, ClipboardList } from 'lucide-react';
+import { LogOut, Home, Calendar, LayoutGrid, AlertCircle, ShieldCheck, ClipboardList, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import api from '../lib/api';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    if (!user) return;
+    const fetchUnread = async () => {
+      try {
+        const res = await api.get('/notifications/unread-count');
+        setUnreadCount(res.data.count);
+      } catch (err) {
+        console.error("Failed to fetch unread count", err);
+      }
+    };
+    fetchUnread();
+    const interval = setInterval(fetchUnread, 30000); // 30s polling
+    return () => clearInterval(interval);
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -35,6 +52,17 @@ export default function Navbar() {
         <Link to="/tickets" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
           <AlertCircle className="mr-3" />
           <span className="font-semibold text-sm">Incidents</span>
+        </Link>
+        <Link to="/notifications" className="flex items-center justify-between px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
+          <div className="flex items-center">
+            <Bell className="mr-3" />
+            <span className="font-semibold text-sm">Notifications</span>
+          </div>
+          {unreadCount > 0 && (
+            <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+              {unreadCount}
+            </span>
+          )}
         </Link>
         {user?.role === 'ADMIN' && (
           <>
