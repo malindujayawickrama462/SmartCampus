@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Resource Catalogue | Operations Hub</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-primary": "#ffffff",
+                "tertiary-fixed-dim": "#4edea3",
+                "primary": "#000a1e",
+                "primary-fixed-dim": "#aec7f6",
+                "surface-tint": "#465f88",
+                "primary-fixed": "#d6e3ff",
+                "on-error": "#ffffff",
+                "surface-container-high": "#e6e8ea",
+                "on-secondary": "#ffffff",
+                "on-tertiary-container": "#009c6b",
+                "on-secondary-fixed": "#0d1c2e",
+                "error": "#ba1a1a",
+                "surface-bright": "#f7f9fb",
+                "surface-container": "#eceef0",
+                "inverse-on-surface": "#eff1f3",
+                "on-tertiary": "#ffffff",
+                "secondary": "#515f74",
+                "surface-container-highest": "#e0e3e5",
+                "error-container": "#ffdad6",
+                "on-primary-fixed": "#001b3d",
+                "inverse-primary": "#aec7f6",
+                "primary-container": "#002147",
+                "on-secondary-container": "#57657a",
+                "on-secondary-fixed-variant": "#3a485b",
+                "secondary-container": "#d5e3fc",
+                "outline-variant": "#c4c6cf",
+                "on-primary-container": "#708ab5",
+                "on-background": "#191c1e",
+                "on-surface-variant": "#44474e",
+                "tertiary-container": "#002718",
+                "secondary-fixed-dim": "#b9c7df",
+                "secondary-fixed": "#d5e3fc",
+                "tertiary-fixed": "#6ffbbe",
+                "on-tertiary-fixed": "#002113",
+                "surface-container-lowest": "#ffffff",
+                "on-surface": "#191c1e",
+                "on-primary-fixed-variant": "#2d476f",
+                "on-tertiary-fixed-variant": "#005236",
+                "surface-variant": "#e0e3e5",
+                "outline": "#74777f",
+                "background": "#f7f9fb",
+                "surface": "#f7f9fb",
+                "surface-dim": "#d8dadc",
+                "tertiary": "#000d06",
+                "surface-container-low": "#f2f4f6",
+                "inverse-surface": "#2d3133",
+                "on-error-container": "#93000a"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+      </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#000a1e] backdrop-blur-md bg-opacity-95 flex flex-col py-8 z-50">
+<div class="px-6 mb-12">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container flex items-center justify-center rounded-xl overflow-hidden">
+<img alt="University Logo" data-alt="Minimalist geometric university crest in white and deep navy with clean sharp lines" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-tUQwBjDMVWnx_WrJ0cRW5TkDz2MTORhvepxUxIHPBaPfViNQd6My4fMdQZJa0w0ikxBx7aYnNhYnpVFG2kPrxGBoUdUyz4dRQ1zH90errOzXuH-FEKDdnEA0Ga4u_Ejo_3KCvqkDADoXt6DLMIqPGXg7ppJgI9Hh1LrA1qXxJGxoRWCVhJgrJnDASHqXNF5dc2n8r9BOWVAhqJo4-5iT-nb9YOjrrg-vnBVP_zaoxeLPcMCQnt5JpviLCVsbnd1WcpLO103mFbTz"/>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white font-headline">Operations Hub</h1>
+<p class="text-[10px] text-tertiary-fixed font-semibold uppercase tracking-widest">Academic Monolith</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:bg-white/5 hover:text-white transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center px-6 py-3 border-l-4 border-[#6ffbbe] bg-white/10 text-white font-semibold group transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3 text-tertiary-fixed">menu_book</span>
+<span class="text-sm">Catalogue</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:bg-white/5 hover:text-white transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">event_available</span>
+<span class="text-sm font-semibold">Bookings</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:bg-white/5 hover:text-white transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">report_problem</span>
+<span class="text-sm font-semibold">Incidents</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:bg-white/5 hover:text-white transition-all duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3">admin_panel_settings</span>
+<span class="text-sm font-semibold">Admin</span>
+</a>
+</nav>
+<div class="px-6 mt-auto pt-8 space-y-4">
+<button class="w-full bg-gradient-to-b from-primary to-primary-container text-white py-3 px-4 rounded-xl text-sm font-bold shadow-lg shadow-black/20 hover:scale-[0.98] transition-transform">
+                Quick Action
+            </button>
+<div class="space-y-1">
+<a class="flex items-center py-2 text-[#515f74] hover:text-white transition-colors text-sm font-semibold" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">help_outline</span>
+                    Support
+                </a>
+<a class="flex items-center py-2 text-[#515f74] hover:text-white transition-colors text-sm font-semibold" href="#">
+<span class="material-symbols-outlined mr-3 text-lg">settings</span>
+                    Settings
+                </a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Component -->
+<header class="fixed top-0 right-0 left-0 h-20 bg-[#f7f9fb] dark:bg-[#000a1e] flex justify-between items-center pl-72 pr-16 z-40">
+<div>
+<h2 class="text-2xl font-black text-[#000a1e] dark:text-white font-headline">Resource Catalogue</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary text-xl">search</span>
+<input class="bg-surface-container-highest border-none rounded-full py-2 pl-10 pr-6 text-sm focus:ring-2 focus:ring-surface-tint w-64 transition-all duration-300" placeholder="Search resources..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-[#f2f4f6] dark:hover:bg-[#002147] rounded-full p-2 transition-all duration-200 hover:scale-110">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-white/50 shadow-sm">
+<img alt="User Profile with Google OAuth" data-alt="High-resolution professional headshot of an academic staff member in soft studio lighting against a neutral grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfryWRU3BjISaEF64It8e1whZrK-dms-a0pOu6qKczMJKw1wJpxOJn4xMLrDScTc18Vf4HMR9nUQGAgL7B6aWPeq6DbXLgQeGqdG4-dm-AQQhw6YhElxpT0y_pcmXlHMYVfAhxbNu4UQUPkN1j-fgFLmNvu76LcQfGmi0P_nFTI01F_bzib0YhDLsPkmuyab4XH1FjoFNKc3SARMx84IS0SObecCdRRjtl-O0zku-4KO36EsDzGpjXD7IIgBlEyIvMVIIMS1x_zrpm"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-20 min-h-screen bg-surface">
+<div class="p-14">
+<!-- Filter Bar: Tonal Architecture -->
+<section class="bg-surface-container-low p-6 rounded-xl mb-10 flex flex-wrap items-end gap-6">
+<div class="flex-1 min-w-[200px]">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 font-label">Resource Type</label>
+<select class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-surface-tint font-body">
+<option>All Types</option>
+<option>Lecture Hall</option>
+<option>Laboratory</option>
+<option>Meeting Room</option>
+<option>Equipment</option>
+</select>
+</div>
+<div class="flex-1 min-w-[150px]">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 font-label">Min Capacity</label>
+<select class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-surface-tint font-body">
+<option>Any</option>
+<option>10+ Seats</option>
+<option>50+ Seats</option>
+<option>100+ Seats</option>
+</select>
+</div>
+<div class="flex-1 min-w-[200px]">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 font-label">Location</label>
+<select class="w-full bg-surface-container-lowest border-none rounded-lg text-sm p-3 focus:ring-2 focus:ring-surface-tint font-body">
+<option>All Campuses</option>
+<option>North Wing</option>
+<option>Science District</option>
+<option>Main Quad</option>
+</select>
+</div>
+<button class="bg-primary text-white py-3 px-8 rounded-xl font-bold text-sm hover:scale-[0.98] transition-transform">
+                    Apply Filters
+                </button>
+</section>
+<!-- Resource Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1: Lecture Hall (Active) -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Modern spacious university lecture hall with tiered seating, high ceilings, large windows, and state-of-the-art multimedia presentation systems" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjaDINpVSAFX6YvS752gojUBd7t4BiJ98r4q39mcHmmE2-9fcrpErlyFPmvZI_9-92HU1cFFZRYbHm81dzIPUpNj1FXVzVdVLn9AS1pxIDQH-ZKoqX_Fo-9Spmp9N41mU1je1Nl7UZAr-K9YGBh69RAwHGMV9kQ1qEpiEVyJ2ChMClhXIlh6ALQcplP2fL7ihpm7gVUemqzZv3Y_0QthR9-3vcZAAAOaO3ThuHLZhOfJQVyt-gXmzRd17xFH8NPx_EnFQSkHEY3-F6"/>
+<div class="absolute top-4 right-4">
+<span class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-1">Lecture Hall</p>
+<h3 class="text-xl font-extrabold font-headline text-primary leading-tight">Einstein Auditorium</h3>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">groups</span>
+<span class="font-medium">250 Person Capacity</span>
+</div>
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">location_on</span>
+<span class="font-medium">Science District, Block B</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors">
+                            Book Now
+                        </button>
+</div>
+</article>
+<!-- Card 2: Laboratory (Active) -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Sleek modern chemistry laboratory with glass partitions, clean white surfaces, stainless steel equipment, and professional specialized lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfsnE2us24_84WovUhUFn0L-nZZ-7CRTInEvsOkMcTi1jLC7AV5rmEH_3jTQUpAVS2Y9Kyn0Kgkga-IWqdMfTfimR6oJYIWFHQFf9d5JpfynJi2JhODxJjdsrGOK0h_-ukFFnpwd_MbNIrq333BodpMKuu2jAzWG1hfFHUBq8HUqeaMKgn25_Bi4skPDa97q5UE4fNiIIaXU6OSx12cpaYomUUdzyKK3N9WGBBu3-aQt4CVkt7mYk727VDCVggvfC0B0ZLTMpNsgjZ"/>
+<div class="absolute top-4 right-4">
+<span class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-1">Laboratory</p>
+<h3 class="text-xl font-extrabold font-headline text-primary leading-tight">Organic Chem Lab 4</h3>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">groups</span>
+<span class="font-medium">32 Person Capacity</span>
+</div>
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">location_on</span>
+<span class="font-medium">Science District, Wing A</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors">
+                            Book Now
+                        </button>
+</div>
+</article>
+<!-- Card 3: Meeting Room (Out of Service) -->
+<article class="bg-surface-container-lowest opacity-80 grayscale-[0.5] rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Sophisticated executive meeting room with dark wood table, leather chairs, and floor-to-ceiling windows overlooking a green campus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBjSHHRZJVDQ2VxfZzHhVWVldk17EcKHB10lW6QSxlCMxm_l6YMPK9hqI3QUDFMKHO5rUcmeADMBW-XM_bIX_r7CJhLhcs3tXEFVQwcUjhooh--sfO8_EjxH7UPIPegtFBoOG7xor4DIIaIKmpoCWzPYpPz_p7a6Aa0QMHBPIcaIJUdmGRmacWwVUQq6TYwehe229bebHon7fruUR_mZ9dTNStobdh9-0Fpya-PfCzJ5dH8WLNLDPnwe4PX6RQX5hkYBlKqRcHaqMB"/>
+<div class="absolute top-4 right-4">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">OUT_OF_SERVICE</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-1">Meeting Room</p>
+<h3 class="text-xl font-extrabold font-headline text-primary leading-tight">Senate Suite 102</h3>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">groups</span>
+<span class="font-medium">12 Person Capacity</span>
+</div>
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">location_on</span>
+<span class="font-medium">Main Quad, Administration</span>
+</div>
+</div>
+<button class="w-full bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm cursor-not-allowed" disabled="">
+                            Currently Unavailable
+                        </button>
+</div>
+</article>
+<!-- Card 4: Equipment (Active) -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Set of professional high-end cinema cameras and lighting gear meticulously arranged in a university media equipment cage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH8_a3CUdbVVZwk7zpyfW9C6EGQFmP-2RAJ8E3zibUdn4PC5PmwMJ-c0f4ZIMlsPswDIPjrlTy4KqVe-yDqQ7moQicZ8PrHybS2s4T_8_dHIwD2bHoyDnnEigmUnRBWayFh1xlV4T48kPbcApT-MzfkFx5KEvTCGxi-vVDi-myuw_X72_s3CzllgiVofgYsQ0_b68ChqklB_kcU1c29kW4EbpVSxgEPIzhLkZEZBEQLXGLNyUCh5Zl5VOh2SIwUiGs7aCXxFBEiBhI"/>
+<div class="absolute top-4 right-4">
+<span class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-1">Equipment</p>
+<h3 class="text-xl font-extrabold font-headline text-primary leading-tight">Mobile VR Station Kit</h3>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">inventory_2</span>
+<span class="font-medium">Individual Unit</span>
+</div>
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">location_on</span>
+<span class="font-medium">North Wing, Media Lab</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors">
+                            Book Now
+                        </button>
+</div>
+</article>
+<!-- Card 5: Meeting Room (Active) -->
+<article class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Small sound-proof study pod with minimalist desk, ergonomic chair, and warm integrated task lighting within a university library" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMzAHDhozyncta5mDsGTYvZOcMBHFjZ9FS7EvG84hmYBREIifnYcFp-jtQ1YF-fvy9gp8ow7cQSMwxQMHsqluJHSVjgDGZxThiRwMaDHG44GphghJNmfrfuXjLsIJpnf-OP15yvzh7kOrNMt3vSZVkUhIlGW2ybt_sPdnqPQTBJ9uLpwQTkkhZTQ1QE22LK1Nt1-Z3gcms_PDwMZSywmizAcvcGu_QE5eIYxXrc6crhTbEmUgy_hXsvecTXyZ3A9hxbcbJz7JX_ztm"/>
+<div class="absolute top-4 right-4">
+<span class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">ACTIVE</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-1">Meeting Room</p>
+<h3 class="text-xl font-extrabold font-headline text-primary leading-tight">Quiet Study Pod G14</h3>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">groups</span>
+<span class="font-medium">1-2 Person Capacity</span>
+</div>
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">location_on</span>
+<span class="font-medium">Library, North Wing</span>
+</div>
+</div>
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-bold text-sm hover:bg-primary-container transition-colors">
+                            Book Now
+                        </button>
+</div>
+</article>
+<!-- Card 6: Laboratory (Out of Service) -->
+<article class="bg-surface-container-lowest opacity-80 grayscale-[0.5] rounded-xl overflow-hidden group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-300">
+<div class="h-48 overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="High-containment biosafety lab with specialized ventilation, biological safety cabinets, and cleanroom environment at a research university" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTbdepEczeO-th6Bdq3FtRvWnRlEz1ny9J8vb5CCYGFdRTTWjKlFhjjBX0-j2tnZZlKAy1JwQUII43K0K30-yNZeiqhlNJEg3Ut0EG0Z7Ls84nI0Xww3Jo1SYZfra-ca7ecIWtZ_OU1Jfnfpsti70PnCTCqcvbRvPdlhpIRh_dbSMKVjSzYGQgmkVSk_jEgb-kwQQTCSFzMq8s97WXut52MSlesIakol8AAIvjTAhOyNItwYYqSV6fLhrJ29DBymXDoTPZ7R81oEXE"/>
+<div class="absolute top-4 right-4">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest backdrop-blur-md">OUT_OF_SERVICE</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-widest mb-1">Laboratory</p>
+<h3 class="text-xl font-extrabold font-headline text-primary leading-tight">Biosafety Level 3 Lab</h3>
+</div>
+</div>
+<div class="space-y-3 mb-8">
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">groups</span>
+<span class="font-medium">8 Person Capacity</span>
+</div>
+<div class="flex items-center text-secondary text-sm">
+<span class="material-symbols-outlined text-lg mr-2">location_on</span>
+<span class="font-medium">Life Sciences, Underground</span>
+</div>
+</div>
+<button class="w-full bg-surface-container-high text-on-surface-variant py-3 rounded-lg font-bold text-sm cursor-not-allowed" disabled="">
+                            Maintenance in Progress
+                        </button>
+</div>
+</article>
+</div>
+<!-- Asymmetric Layout Detail / Summary -->
+<section class="mt-16 grid grid-cols-12 gap-8">
+<div class="col-span-12 lg:col-span-4 bg-primary text-white p-10 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="text-3xl font-black font-headline mb-6 leading-tight">Need a customized room setup?</h4>
+<p class="text-primary-fixed-dim text-sm mb-8 leading-relaxed">For events requiring specific AV configuration, catering, or furniture rearrangement, please contact the Facility Management team directly.</p>
+<button class="bg-[#6ffbbe] text-[#002113] px-6 py-3 rounded-lg font-bold text-sm flex items-center gap-2 group">
+                            Contact Operations
+                            <span class="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Background texture/gradient -->
+<div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-tertiary-fixed/20 to-transparent blur-3xl -mr-20 -mt-20"></div>
+</div>
+<div class="col-span-12 lg:col-span-8 bg-surface-container p-8 rounded-2xl flex flex-col justify-center">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h4 class="text-lg font-extrabold font-headline text-primary mb-1">Operational Summary</h4>
+<p class="text-secondary text-xs font-semibold">Real-time resource availability campus-wide</p>
+</div>
+<div class="text-right">
+<span class="text-4xl font-black font-headline text-primary">84%</span>
+<p class="text-[10px] font-bold uppercase tracking-widest text-secondary">Uptime Rate</p>
+</div>
+</div>
+<div class="grid grid-cols-4 gap-4">
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<span class="block text-2xl font-black text-primary">142</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Active Halls</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<span class="block text-2xl font-black text-primary">58</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Active Labs</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<span class="block text-2xl font-black text-primary">12</span>
+<span class="text-[10px] font-bold text-error uppercase">Maintenance</span>
+</div>
+<div class="bg-surface-container-lowest p-4 rounded-xl">
+<span class="block text-2xl font-black text-primary">2,104</span>
+<span class="text-[10px] font-bold text-secondary uppercase">Equip Units</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

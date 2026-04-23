@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Console | Operations Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary-container": "#57657a",
+              "inverse-primary": "#aec7f6",
+              "on-secondary": "#ffffff",
+              "secondary-container": "#d5e3fc",
+              "surface-bright": "#f7f9fb",
+              "on-primary-container": "#708ab5",
+              "on-primary": "#ffffff",
+              "on-background": "#191c1e",
+              "primary-fixed": "#d6e3ff",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-error": "#ffffff",
+              "surface": "#f7f9fb",
+              "on-secondary-fixed": "#0d1c2e",
+              "on-error-container": "#93000a",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#001b3d",
+              "secondary": "#515f74",
+              "surface-container-low": "#f2f4f6",
+              "primary-container": "#002147",
+              "outline-variant": "#c4c6cf",
+              "inverse-surface": "#2d3133",
+              "surface-tint": "#465f88",
+              "on-surface-variant": "#44474e",
+              "error": "#ba1a1a",
+              "tertiary-container": "#002718",
+              "tertiary": "#000d06",
+              "primary-fixed-dim": "#aec7f6",
+              "tertiary-fixed": "#6ffbbe",
+              "error-container": "#ffdad6",
+              "primary": "#000a1e",
+              "on-tertiary-fixed": "#002113",
+              "surface-container-high": "#e6e8ea",
+              "surface-container": "#eceef0",
+              "inverse-on-surface": "#eff1f3",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-surface": "#191c1e",
+              "secondary-fixed-dim": "#b9c7df",
+              "on-secondary-fixed-variant": "#3a485b",
+              "surface-dim": "#d8dadc",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-fixed": "#d5e3fc",
+              "outline": "#74777f",
+              "on-primary-fixed-variant": "#2d476f",
+              "on-tertiary-container": "#009c6b",
+              "surface-variant": "#e0e3e5",
+              "background": "#f7f9fb"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7f9fb;
+      }
+      h1, h2, h3 {
+        font-family: 'Manrope', sans-serif;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #c4c6cf;
+        border-radius: 10px;
+      }
+    </style>
+</head>
+<body class="text-on-surface overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-[#000a1e] backdrop-blur-md bg-opacity-95 flex flex-col py-8 z-50">
+<div class="px-6 mb-10">
+<h1 class="text-xl font-bold tracking-tight text-white uppercase tracking-[0.1em]">Operations Hub</h1>
+<p class="text-[10px] text-tertiary-fixed font-semibold tracking-widest mt-1 opacity-70">ACADEMIC MONOLITH</p>
+</div>
+<div class="flex-grow flex flex-col gap-1">
+<!-- Navigation Items -->
+<a class="px-6 py-3 flex items-center gap-4 text-[#515f74] hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-semibold tracking-wide">Dashboard</span>
+</a>
+<a class="px-6 py-3 flex items-center gap-4 text-[#515f74] hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="menu_book">menu_book</span>
+<span class="text-sm font-semibold tracking-wide">Catalogue</span>
+</a>
+<a class="px-6 py-3 flex items-center gap-4 text-[#515f74] hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+<span class="text-sm font-semibold tracking-wide">Bookings</span>
+</a>
+<a class="px-6 py-3 flex items-center gap-4 text-[#515f74] hover:text-white transition-colors hover:bg-white/5" href="#">
+<span class="material-symbols-outlined" data-icon="report_problem">report_problem</span>
+<span class="text-sm font-semibold tracking-wide">Incidents</span>
+</a>
+<a class="px-6 py-3 flex items-center gap-4 border-l-4 border-[#6ffbbe] bg-white/10 text-white font-semibold" href="#">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="text-sm font-semibold tracking-wide">Admin</span>
+</a>
+</div>
+<div class="px-6 mt-auto flex flex-col gap-4">
+<button class="bg-gradient-to-b from-primary to-primary-container text-white py-3 rounded-xl font-bold text-sm shadow-xl flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Quick Action
+            </button>
+<div class="flex flex-col gap-1 border-t border-white/5 pt-4">
+<a class="flex items-center gap-3 py-2 text-[#515f74] hover:text-white transition-colors text-xs" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="help_outline">help_outline</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-[#515f74] hover:text-white transition-colors text-xs" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 h-20 bg-[#f7f9fb] flex justify-between items-center w-full pl-72 pr-16 z-40">
+<div class="flex items-center gap-8">
+<h2 class="text-2xl font-black text-[#000a1e] tracking-tight">Admin Console</h2>
+<div class="h-6 w-[1px] bg-outline-variant opacity-30"></div>
+<div class="flex gap-6">
+<span class="text-[#000a1e] font-bold text-sm tracking-wide border-b-2 border-primary pb-1 cursor-pointer">User Management</span>
+<span class="text-[#515f74] font-medium text-sm tracking-wide hover:text-primary transition-colors cursor-pointer">Audit Logs</span>
+<span class="text-[#515f74] font-medium text-sm tracking-wide hover:text-primary transition-colors cursor-pointer">System Health</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-secondary" data-icon="search">search</span>
+<input class="bg-surface-container-low border-none rounded-full pl-10 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-primary-container transition-all" placeholder="Search operational data..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<div class="hover:bg-[#f2f4f6] rounded-full p-2 cursor-pointer transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-on-surface" data-icon="notifications">notifications</span>
+</div>
+<div class="flex items-center gap-3 pl-4 border-l border-outline-variant/30">
+<div class="text-right">
+<p class="text-xs font-bold text-primary">Director Vance</p>
+<p class="text-[10px] text-secondary">Global Admin</p>
+</div>
+<img alt="User Profile" class="w-10 h-10 rounded-full object-cover shadow-sm" data-alt="Close-up portrait of a professional man in a tailored suit, neutral background, soft studio lighting, authoritative but approachable" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAutocpkSPqFkh9sDE_rzpkpVr50Zs-BfjIj1u0j2YaGg-rC8lRWvCHBjEk_0g21aOss9azSUe5nKgth7OA8c0Pd6LAjwHtknwwE-Olxy_YnIyI_ild-VTgnGIv0cc6X0UjK05fC5DjjkoaViI_ahvPbQvsd8348aX_i9cyLcTOCg8fwIqWrvH9d-tq8h9Zt-WEVE6J6_SRMtorDKiVh3JQIbMvubS83V9UQfw4JuME6guCpx--a-QLKUbD1hIn-dkmV0qVZcsVFTtt"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-28 pl-72 pr-16 pb-12">
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_12px_40px_rgba(25,28,30,0.06)] relative overflow-hidden group">
+<div class="relative z-10">
+<p class="text-[11px] font-bold text-secondary uppercase tracking-widest mb-2">Total Users</p>
+<h3 class="text-4xl font-extrabold text-primary">12,482</h3>
+<div class="flex items-center gap-2 mt-4">
+<span class="text-[10px] bg-tertiary-fixed/30 text-on-tertiary-fixed-variant px-2 py-0.5 rounded-full font-bold">+4.2%</span>
+<span class="text-[10px] text-secondary font-medium">vs last month</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/5 text-8xl rotate-12 transition-transform group-hover:scale-110" data-icon="groups">groups</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_12px_40px_rgba(25,28,30,0.06)] relative overflow-hidden group">
+<div class="relative z-10">
+<p class="text-[11px] font-bold text-secondary uppercase tracking-widest mb-2">Active Sessions</p>
+<h3 class="text-4xl font-extrabold text-primary">1,894</h3>
+<div class="flex items-center gap-2 mt-4">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></div>
+<span class="text-[10px] text-secondary font-medium">Real-time throughput</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/5 text-8xl rotate-12 transition-transform group-hover:scale-110" data-icon="bolt">bolt</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/10 shadow-[0_12px_40px_rgba(25,28,30,0.06)] relative overflow-hidden group">
+<div class="relative z-10">
+<p class="text-[11px] font-bold text-secondary uppercase tracking-widest mb-2">Pending Requests</p>
+<h3 class="text-4xl font-extrabold text-primary">24</h3>
+<div class="flex items-center gap-2 mt-4">
+<span class="text-[10px] bg-error-container text-on-error-container px-2 py-0.5 rounded-full font-bold">Action Required</span>
+</div>
+</div>
+<span class="material-symbols-outlined absolute -bottom-2 -right-2 text-primary/5 text-8xl rotate-12 transition-transform group-hover:scale-110" data-icon="assignment_late">assignment_late</span>
+</div>
+<div class="bg-primary p-6 rounded-xl shadow-2xl relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-[11px] font-bold text-secondary-fixed-dim uppercase tracking-widest mb-2">System Status</p>
+<h3 class="text-2xl font-bold text-white">All Operational</h3>
+<div class="mt-6 flex gap-1">
+<div class="h-1 flex-grow bg-tertiary-fixed rounded-full opacity-80"></div>
+<div class="h-1 flex-grow bg-tertiary-fixed rounded-full opacity-80"></div>
+<div class="h-1 flex-grow bg-tertiary-fixed rounded-full opacity-80"></div>
+<div class="h-1 flex-grow bg-tertiary-fixed rounded-full opacity-40"></div>
+</div>
+<p class="text-[10px] text-secondary-fixed-dim mt-2">Server Cluster: Academic-E1 (99.9%)</p>
+</div>
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container/40 to-transparent"></div>
+</div>
+</div>
+<!-- Main Content Area: User Management and Audit Log Split -->
+<div class="flex flex-col xl:flex-row gap-8 items-start">
+<!-- User Management Table Section -->
+<div class="flex-grow w-full xl:w-2/3">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_40px_rgba(25,28,30,0.06)] overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center bg-surface-container-low/50">
+<h3 class="text-lg font-bold text-primary">Identity Directory</h3>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-xs font-semibold text-secondary hover:text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                                Filter
+                            </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white rounded-lg text-xs font-semibold text-secondary hover:text-primary transition-all shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="download">download</span>
+                                Export
+                            </button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-secondary uppercase tracking-widest text-[10px] font-bold">
+<th class="px-8 py-4">User</th>
+<th class="px-6 py-4">Department</th>
+<th class="px-6 py-4">Role Hierarchy</th>
+<th class="px-6 py-4 text-center">Status</th>
+<th class="px-8 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-secondary-container flex items-center justify-center text-primary font-bold text-xs">AS</div>
+<div>
+<p class="text-sm font-bold text-primary">Adrian Sterling</p>
+<p class="text-xs text-secondary">a.sterling@univ.edu</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-xs font-medium text-on-surface-variant">Computer Science</p>
+</td>
+<td class="px-6 py-5">
+<select class="bg-transparent border-none text-xs font-bold text-primary py-1 px-0 focus:ring-0 cursor-pointer hover:underline">
+<option>Admin</option>
+<option selected="">Technician</option>
+<option>Manager</option>
+<option>User</option>
+</select>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<div class="w-10 h-5 bg-tertiary-fixed/30 rounded-full flex items-center px-1 relative cursor-pointer">
+<div class="w-3.5 h-3.5 bg-on-tertiary-fixed-variant rounded-full ml-auto shadow-sm"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 hover:text-primary transition-all p-1" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<img alt="Elena Rodriguez" class="w-9 h-9 rounded-full object-cover" data-alt="Portrait of a female university executive, professional and confident, wearing glasses and a navy blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfkoS5dKi8VsQLyYBeRWBcR7VGcgPnCSjTPDdhZZtjeiy5ulnBUq4j4MnWDZUaUrMWW3qFElRgrv7-qiRycmeuQIIFoLcJ453sQMo9cKL305hpVH7kZabndxXGKepJEwJ-lzdvUCQQA_GzBXduivf_eNf1bveWkFqfthgjuHk748U-cRlWcL5EA9qzSKO6erbK5RjngEcLy1NBz1k0ZbM3ucvuSA1Cz-peBGLAyHUPBs4wumjzImOH5OgK9Q-YhUrRQnhh63W2Eywj"/>
+<div>
+<p class="text-sm font-bold text-primary">Elena Rodriguez</p>
+<p class="text-xs text-secondary">e.rodriguez@univ.edu</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-xs font-medium text-on-surface-variant">Administration</p>
+</td>
+<td class="px-6 py-5">
+<select class="bg-transparent border-none text-xs font-bold text-primary py-1 px-0 focus:ring-0 cursor-pointer hover:underline">
+<option selected="">Admin</option>
+<option>Technician</option>
+<option>Manager</option>
+<option>User</option>
+</select>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<div class="w-10 h-5 bg-tertiary-fixed/30 rounded-full flex items-center px-1 relative cursor-pointer">
+<div class="w-3.5 h-3.5 bg-on-tertiary-fixed-variant rounded-full ml-auto shadow-sm"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 hover:text-primary transition-all p-1" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group bg-surface-container-low/20">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-primary flex items-center justify-center font-bold text-xs opacity-50">TM</div>
+<div>
+<p class="text-sm font-bold text-secondary opacity-60">Thomas Mueller</p>
+<p class="text-xs text-secondary opacity-50">t.mueller@univ.edu</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-xs font-medium text-secondary opacity-60">Facilities</p>
+</td>
+<td class="px-6 py-5">
+<select class="bg-transparent border-none text-xs font-bold text-secondary opacity-60 py-1 px-0 focus:ring-0" disabled="">
+<option>Admin</option>
+<option>Technician</option>
+<option selected="">Manager</option>
+<option>User</option>
+</select>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<div class="w-10 h-5 bg-outline-variant/30 rounded-full flex items-center px-1 relative cursor-pointer">
+<div class="w-3.5 h-3.5 bg-on-secondary-container rounded-full shadow-sm"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 hover:text-primary transition-all p-1" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-xs">LJ</div>
+<div>
+<p class="text-sm font-bold text-primary">Lisa Jaxon</p>
+<p class="text-xs text-secondary">l.jaxon@univ.edu</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<p class="text-xs font-medium text-on-surface-variant">Marketing</p>
+</td>
+<td class="px-6 py-5">
+<select class="bg-transparent border-none text-xs font-bold text-primary py-1 px-0 focus:ring-0 cursor-pointer hover:underline">
+<option>Admin</option>
+<option>Technician</option>
+<option>Manager</option>
+<option selected="">User</option>
+</select>
+</td>
+<td class="px-6 py-5">
+<div class="flex justify-center">
+<div class="w-10 h-5 bg-tertiary-fixed/30 rounded-full flex items-center px-1 relative cursor-pointer">
+<div class="w-3.5 h-3.5 bg-on-tertiary-fixed-variant rounded-full ml-auto shadow-sm"></div>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-right">
+<button class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 hover:text-primary transition-all p-1" data-icon="more_vert">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-4 bg-surface-container-low/50 flex justify-between items-center text-xs text-secondary font-medium">
+<p>Showing 1-12 of 12,482 users</p>
+<div class="flex gap-2">
+<button class="px-3 py-1 bg-white rounded border border-outline-variant/20 hover:bg-white/80">Previous</button>
+<button class="px-3 py-1 bg-primary text-white rounded shadow-sm">1</button>
+<button class="px-3 py-1 bg-white rounded border border-outline-variant/20 hover:bg-white/80">2</button>
+<button class="px-3 py-1 bg-white rounded border border-outline-variant/20 hover:bg-white/80">3</button>
+<button class="px-3 py-1 bg-white rounded border border-outline-variant/20 hover:bg-white/80">Next</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit Log Sidebar -->
+<div class="w-full xl:w-1/3">
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_12px_40px_rgba(25,28,30,0.06)] h-full overflow-hidden flex flex-col">
+<div class="px-8 py-6 border-b border-outline-variant/10">
+<h3 class="text-lg font-bold text-primary">System Audit Log</h3>
+<p class="text-xs text-secondary mt-1">Live administrative stream</p>
+</div>
+<div class="flex-grow overflow-y-auto custom-scrollbar p-6 space-y-6">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg" data-icon="check_circle">check_circle</span>
+</div>
+<div class="w-[2px] h-full bg-outline-variant/20 mt-2"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Admin Approved Booking #4402</p>
+<p class="text-xs text-secondary leading-relaxed mt-1">Vance (Global Admin) reviewed and authorized the high-latency slot for Physics Dept.</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase mt-2">12 MINUTES AGO</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="assignment_ind">assignment_ind</span>
+</div>
+<div class="w-[2px] h-full bg-outline-variant/20 mt-2"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Technician assigned to Ticket #INC-4429</p>
+<p class="text-xs text-secondary leading-relaxed mt-1">Network outage in West Wing assigned to Tech Squad Alpha for immediate resolution.</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase mt-2">45 MINUTES AGO</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-lg" data-icon="security">security</span>
+</div>
+<div class="w-[2px] h-full bg-outline-variant/20 mt-2"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">Brute-force Blocked</p>
+<p class="text-xs text-secondary leading-relaxed mt-1">Automated firewall mitigation blocked IP 192.168.1.1 after 5 failed login attempts.</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase mt-2">2 HOURS AGO</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="person_add">person_add</span>
+</div>
+<div class="w-[2px] h-full bg-outline-variant/20 mt-2"></div>
+</div>
+<div>
+<p class="text-sm font-bold text-primary">New Manager Provisioned</p>
+<p class="text-xs text-secondary leading-relaxed mt-1">Sarah Chen was granted Manager privileges for the Humanities Sector.</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase mt-2">4 HOURS AGO</p>
+</div>
+</div>
+</div>
+<button class="mx-6 my-6 py-3 border-2 border-primary-container text-primary font-bold text-xs rounded-xl hover:bg-primary hover:text-white transition-all uppercase tracking-widest">
+                        View Full History
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Tooltip / Status -->
+<div class="fixed bottom-8 right-8 bg-primary-container text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4 border-l-4 border-tertiary-fixed">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed animate-pulse"></div>
+<p class="text-xs font-semibold tracking-wide">Hub Status: Synchronizing with Central Node Academic-Prime</p>
+</div>
+</body></html>
