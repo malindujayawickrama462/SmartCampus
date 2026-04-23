@@ -44,6 +44,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/resources/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
+                // WebSocket handshake (SockJS)
+                .requestMatchers("/ws/**").permitAll()
                 // OAuth2 flow
                 .requestMatchers("/oauth2/**", "/login/**").permitAll()
                 // Admin-only

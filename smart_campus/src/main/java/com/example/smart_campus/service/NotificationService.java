@@ -4,16 +4,19 @@ import com.example.smart_campus.model.Notification;
 import com.example.smart_campus.model.User;
 import com.example.smart_campus.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
     public List<Notification> getMyNotifications(Long userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
@@ -33,6 +36,17 @@ public class NotificationService {
                 .isRead(false)
                 .build();
         notificationRepository.save(notification);
+
+        // Push real-time event to the specific user's WebSocket topic
+        messagingTemplate.convertAndSend(
+            "/topic/notifications/" + user.getId(),
+            Map.of(
+                "id", notification.getId() != null ? notification.getId() : 0L,
+                "type", type,
+                "message", message,
+                "referenceId", referenceId != null ? referenceId : 0L
+            )
+        );
     }
 
     @Transactional
