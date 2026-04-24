@@ -54,3 +54,4 @@ The React SPA will launch on `http://localhost:5173`.
 * `USER` - Default after OAuth2 login.
 * `ADMIN` - Requires manual database role bump for now.
 * `TECHNICIAN` - Assigned to handle incident tickets.
+Test change by Savindu
