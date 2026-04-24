@@ -4,7 +4,6 @@ import com.example.smart_campus.model.Role;
 import com.example.smart_campus.model.User;
 import com.example.smart_campus.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -14,11 +13,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
-@RequiredArgsConstructor
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final UserRepository userRepository;
     private final JwtUtils jwtUtils;
+
+    public OAuth2SuccessHandler(UserRepository userRepository, JwtUtils jwtUtils) {
+        this.userRepository = userRepository;
+        this.jwtUtils = jwtUtils;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,

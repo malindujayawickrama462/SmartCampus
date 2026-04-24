@@ -1,17 +1,12 @@
 package com.example.smart_campus.model;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tickets")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Ticket {
 
     @Id
@@ -55,11 +50,9 @@ public class Ticket {
     private String rejectionReason;
 
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<TicketImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<TicketComment> comments = new ArrayList<>();
 
     @Column(nullable = false, updatable = false)
@@ -67,14 +60,274 @@ public class Ticket {
 
     private LocalDateTime updatedAt;
 
+    public Ticket() {
+    }
+
+    public Ticket(Long id, Resource resource, User reporter, User assignee, String location, String category, String description, TicketPriority priority, TicketStatus status, String contactDetails, String resolutionNotes, String rejectionReason, List<TicketImage> images, List<TicketComment> comments, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.resource = resource;
+        this.reporter = reporter;
+        this.assignee = assignee;
+        this.location = location;
+        this.category = category;
+        this.description = description;
+        this.priority = priority;
+        this.status = status;
+        this.contactDetails = contactDetails;
+        this.resolutionNotes = resolutionNotes;
+        this.rejectionReason = rejectionReason;
+        this.images = images != null ? images : new ArrayList<>();
+        this.comments = comments != null ? comments : new ArrayList<>();
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-        status = TicketStatus.OPEN;
+        if (status == null) {
+            status = TicketStatus.OPEN;
+        }
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
+
+    public User getReporter() {
+        return reporter;
+    }
+
+    public void setReporter(User reporter) {
+        this.reporter = reporter;
+    }
+
+    public User getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public TicketPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TicketPriority priority) {
+        this.priority = priority;
+    }
+
+    public TicketStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus status) {
+        this.status = status;
+    }
+
+    public String getContactDetails() {
+        return contactDetails;
+    }
+
+    public void setContactDetails(String contactDetails) {
+        this.contactDetails = contactDetails;
+    }
+
+    public String getResolutionNotes() {
+        return resolutionNotes;
+    }
+
+    public void setResolutionNotes(String resolutionNotes) {
+        this.resolutionNotes = resolutionNotes;
+    }
+
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
+    }
+
+    public List<TicketImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<TicketImage> images) {
+        this.images = images;
+    }
+
+    public List<TicketComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<TicketComment> comments) {
+        this.comments = comments;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // Builder pattern
+    public static TicketBuilder builder() {
+        return new TicketBuilder();
+    }
+
+    public static class TicketBuilder {
+        private Long id;
+        private Resource resource;
+        private User reporter;
+        private User assignee;
+        private String location;
+        private String category;
+        private String description;
+        private TicketPriority priority;
+        private TicketStatus status;
+        private String contactDetails;
+        private String resolutionNotes;
+        private String rejectionReason;
+        private List<TicketImage> images;
+        private List<TicketComment> comments;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+
+        public TicketBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public TicketBuilder resource(Resource resource) {
+            this.resource = resource;
+            return this;
+        }
+
+        public TicketBuilder reporter(User reporter) {
+            this.reporter = reporter;
+            return this;
+        }
+
+        public TicketBuilder assignee(User assignee) {
+            this.assignee = assignee;
+            return this;
+        }
+
+        public TicketBuilder location(String location) {
+            this.location = location;
+            return this;
+        }
+
+        public TicketBuilder category(String category) {
+            this.category = category;
+            return this;
+        }
+
+        public TicketBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public TicketBuilder priority(TicketPriority priority) {
+            this.priority = priority;
+            return this;
+        }
+
+        public TicketBuilder status(TicketStatus status) {
+            this.status = status;
+            return this;
+        }
+
+        public TicketBuilder contactDetails(String contactDetails) {
+            this.contactDetails = contactDetails;
+            return this;
+        }
+
+        public TicketBuilder resolutionNotes(String resolutionNotes) {
+            this.resolutionNotes = resolutionNotes;
+            return this;
+        }
+
+        public TicketBuilder rejectionReason(String rejectionReason) {
+            this.rejectionReason = rejectionReason;
+            return this;
+        }
+
+        public TicketBuilder images(List<TicketImage> images) {
+            this.images = images;
+            return this;
+        }
+
+        public TicketBuilder comments(List<TicketComment> comments) {
+            this.comments = comments;
+            return this;
+        }
+
+        public TicketBuilder createdAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public TicketBuilder updatedAt(LocalDateTime updatedAt) {
+            this.updatedAt = updatedAt;
+            return this;
+        }
+
+        public Ticket build() {
+            return new Ticket(id, resource, reporter, assignee, location, category, description, priority, status, contactDetails, resolutionNotes, rejectionReason, images, comments, createdAt, updatedAt);
+        }
     }
 }

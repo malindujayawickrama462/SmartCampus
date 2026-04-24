@@ -3,7 +3,6 @@ package com.example.smart_campus.service;
 import com.example.smart_campus.exception.*;
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class TicketService {
 
     private final TicketRepository ticketRepository;
@@ -23,6 +21,14 @@ public class TicketService {
     private final TicketCommentRepository ticketCommentRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+
+    public TicketService(TicketRepository ticketRepository, TicketImageRepository ticketImageRepository, TicketCommentRepository ticketCommentRepository, UserRepository userRepository, NotificationService notificationService) {
+        this.ticketRepository = ticketRepository;
+        this.ticketImageRepository = ticketImageRepository;
+        this.ticketCommentRepository = ticketCommentRepository;
+        this.userRepository = userRepository;
+        this.notificationService = notificationService;
+    }
 
     @Value("${app.upload.dir}")
     private String uploadDir;
@@ -45,17 +51,29 @@ public class TicketService {
     }
 
     public List<Ticket> getFiltered(TicketStatus status, TicketPriority priority) {
-        if (status != null && priority != null) return ticketRepository.findByStatusAndPriority(status, priority);
-        if (status != null) return ticketRepository.findByStatus(status);
-        if (priority != null) return ticketRepository.findByPriority(priority);
-        return ticketRepository.findAll();
+        System.out.println("💾 TicketService.getFiltered - Querying DB...");
+        List<Ticket> results;
+        if (status != null && priority != null) results = ticketRepository.findByStatusAndPriority(status, priority);
+        else if (status != null) results = ticketRepository.findByStatus(status);
+        else if (priority != null) results = ticketRepository.findByPriority(priority);
+        else results = ticketRepository.findAll();
+        
+        System.out.println("📊 Query result: " + results.size() + " tickets");
+        return results;
     }
 
     @Transactional
     public Ticket create(Ticket ticket, List<MultipartFile> images) throws IOException {
+        if (ticket.getStatus() == null) {
+            ticket.setStatus(TicketStatus.OPEN);
+        }
+        
+        System.out.println("💾 Saving ticket to repository...");
         Ticket saved = ticketRepository.save(ticket);
+        System.out.println("✅ Ticket saved in DB with ID: " + saved.getId() + " and status: " + saved.getStatus());
 
         if (images != null && !images.isEmpty()) {
+            System.out.println("🖼 Processing " + images.size() + " images...");
             if (images.size() > 3) throw new BadRequestException("Maximum 3 images allowed per ticket");
             for (MultipartFile file : images) {
                 String filePath = storeFile(file);
@@ -67,6 +85,7 @@ public class TicketService {
                         .build();
                 ticketImageRepository.save(img);
             }
+            System.out.println("✅ Images saved");
         }
         return saved;
     }

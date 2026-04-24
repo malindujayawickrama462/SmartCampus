@@ -34,6 +34,9 @@ class BookingServiceTests {
     @Autowired
     private ResourceRepository resourceRepository;
 
+    @Autowired
+    private NotificationRepository notificationRepository;
+
     private User testUser;
     private User adminUser;
     private Resource testResource;
@@ -41,6 +44,7 @@ class BookingServiceTests {
 
     @BeforeEach
     void setUp() {
+        notificationRepository.deleteAll();
         bookingRepository.deleteAll();
         userRepository.deleteAll();
         resourceRepository.deleteAll();
@@ -51,6 +55,7 @@ class BookingServiceTests {
                 .email("user@test.com")
                 .password("encoded_password")
                 .role(Role.USER)
+                .provider("local")
                 .build();
         userRepository.save(testUser);
 
@@ -60,6 +65,7 @@ class BookingServiceTests {
                 .email("admin@test.com")
                 .password("encoded_password")
                 .role(Role.ADMIN)
+                .provider("local")
                 .build();
         userRepository.save(adminUser);
 
@@ -68,6 +74,8 @@ class BookingServiceTests {
                 .name("Conference Room A")
                 .description("Large conference room")
                 .capacity(50)
+                .location("Building A")
+                .type(ResourceType.MEETING_ROOM)
                 .status(ResourceStatus.AVAILABLE)
                 .build();
         resourceRepository.save(testResource);

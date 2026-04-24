@@ -4,7 +4,6 @@ import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.ResourceRepository;
 import com.example.smart_campus.service.TicketService;
 import com.example.smart_campus.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,12 +17,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tickets")
-@RequiredArgsConstructor
 public class TicketController {
 
     private final TicketService ticketService;
     private final UserService userService;
     private final ResourceRepository resourceRepository;
+
+    public TicketController(TicketService ticketService, UserService userService, ResourceRepository resourceRepository) {
+        this.ticketService = ticketService;
+        this.userService = userService;
+        this.resourceRepository = resourceRepository;
+    }
 
     // GET /api/tickets/my - Get current user's tickets
     @GetMapping("/my")
@@ -51,7 +55,10 @@ public class TicketController {
     public ResponseEntity<List<Ticket>> getAll(
             @RequestParam(required = false) TicketStatus status,
             @RequestParam(required = false) TicketPriority priority) {
-        return ResponseEntity.ok(ticketService.getFiltered(status, priority));
+        System.out.println("🔍 GET /api/tickets - Fetching tickets with status: " + status + ", priority: " + priority);
+        List<Ticket> tickets = ticketService.getFiltered(status, priority);
+        System.out.println("✅ Found " + tickets.size() + " tickets");
+        return ResponseEntity.ok(tickets);
     }
 
     // GET /api/tickets/{id} - Get ticket detail
@@ -72,6 +79,8 @@ public class TicketController {
             @RequestPart(required = false) List<MultipartFile> images,
             @AuthenticationPrincipal User user) throws IOException {
 
+        System.out.println("📝 POST /api/tickets - Creating ticket: " + category + " at " + location + " by user: " + user.getEmail());
+
         Resource resource = resourceId != null
                 ? resourceRepository.findById(resourceId).orElse(null)
                 : null;
@@ -86,8 +95,9 @@ public class TicketController {
                 .reporter(user)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(ticketService.create(ticket, images));
+        Ticket saved = ticketService.create(ticket, images);
+        System.out.println("🚀 Ticket created successfully with ID: " + saved.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     // PUT /api/tickets/{id}/status - Update ticket status (ADMIN/TECHNICIAN)

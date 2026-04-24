@@ -528,7 +528,7 @@ export default function Tickets() {
               {selectedTicket.assignee && (
                 <div>
                   <p className="text-sm text-slate-500 font-medium mb-2">Assigned To</p>
-                  <p className="text-base text-slate-700">{selectedTicket.assignee.name}</p>
+                  <p className="text-base text-slate-700">{selectedTicket.assignee?.name || 'Unknown'}</p>
                 </div>
               )}
 
@@ -579,12 +579,12 @@ export default function Tickets() {
                       <div key={comment.id} className="bg-slate-50 p-4 rounded-lg">
                         <div className="flex items-start justify-between mb-2">
                           <div>
-                            <p className="text-sm font-bold text-[#0f172a]">{comment.author.name}</p>
+                            <p className="text-sm font-bold text-[#0f172a]">{comment.author?.name || 'Unknown'}</p>
                             <p className="text-xs text-slate-500">
                               {new Date(comment.createdAt).toLocaleDateString()} {new Date(comment.createdAt).toLocaleTimeString()}
                             </p>
                           </div>
-                          {(comment.author.id === user.id || user.role === 'ADMIN') && (
+                          {(comment.author?.id === user.id || user.role === 'ADMIN') && (
                             <div className="flex gap-2">
                               <button
                                 onClick={() => {

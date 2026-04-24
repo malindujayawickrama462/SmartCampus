@@ -50,6 +50,11 @@ export default function AdminTickets() {
         }
       });
       console.log('Admin tickets response:', res.data);
+      if (!res.data) {
+        console.warn('Received empty response from server');
+        setTickets([]);
+        return;
+      }
       const ticketArray = Array.isArray(res.data) ? res.data : [];
       console.log('Setting tickets count:', ticketArray.length);
       setTickets(ticketArray);
@@ -248,22 +253,27 @@ export default function AdminTickets() {
     }
   };
 
-  const filteredTickets = tickets
+  const filteredTickets = (tickets || [])
     .filter(t => {
+      if (!t) return false;
       if (filterStatus && t.status !== filterStatus) return false;
       if (filterPriority && t.priority !== filterPriority) return false;
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         return (
-          t.id.toString().includes(q) ||
-          t.category.toLowerCase().includes(q) ||
-          t.location.toLowerCase().includes(q) ||
-          t.reporter.name.toLowerCase().includes(q)
+          (t.id && t.id.toString().includes(q)) ||
+          (t.category && t.category.toLowerCase().includes(q)) ||
+          (t.location && t.location.toLowerCase().includes(q)) ||
+          (t.reporter?.name && t.reporter.name.toLowerCase().includes(q))
         );
       }
       return true;
     })
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    .sort((a, b) => {
+      const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+      const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+      return dateB - dateA;
+    });
 
   if (authLoading || loading) {
     return <div className="p-8 text-center text-slate-500">Loading...</div>;
@@ -346,7 +356,7 @@ export default function AdminTickets() {
                   <tr key={ticket.id} className="border-b border-[#e4e9f2] hover:bg-slate-50">
                     <td className="px-4 py-3 text-sm font-bold text-[#0f172a]">#{ticket.id}</td>
                     <td className="px-4 py-3 text-sm text-slate-700">{ticket.category}</td>
-                    <td className="px-4 py-3 text-sm text-slate-700">{ticket.reporter.name}</td>
+                    <td className="px-4 py-3 text-sm text-slate-700">{ticket.reporter?.name || 'Unknown'}</td>
                     <td className="px-4 py-3">
                       <span className={`inline-block px-2 py-1 text-xs font-semibold rounded ${getPriorityColor(ticket.priority)}`}>
                         {ticket.priority}
@@ -435,7 +445,7 @@ export default function AdminTickets() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-slate-50 p-4 rounded-lg">
                   <p className="text-xs text-slate-500 font-bold uppercase mb-2">Reporter</p>
-                  <p className="text-sm font-bold text-[#0f172a]">{selectedTicket.reporter.name}</p>
+                  <p className="text-sm font-bold text-[#0f172a]">{selectedTicket.reporter?.name || 'Unknown'}</p>
                   {selectedTicket.contactDetails && (
                     <p className="text-xs text-slate-600">{selectedTicket.contactDetails}</p>
                   )}
@@ -579,12 +589,12 @@ export default function AdminTickets() {
                       <div key={comment.id} className="bg-slate-50 p-3 rounded-lg border border-[#e4e9f2]">
                         <div className="flex items-start justify-between mb-1">
                           <div>
-                            <p className="text-xs font-bold text-[#0f172a]">{comment.author.name}</p>
+                            <p className="text-xs font-bold text-[#0f172a]">{comment.author?.name || 'Unknown'}</p>
                             <p className="text-xs text-slate-500">
                               {new Date(comment.createdAt).toLocaleDateString()} {new Date(comment.createdAt).toLocaleTimeString()}
                             </p>
                           </div>
-                          {(comment.author.id === user.id || user.role === 'ADMIN') && (
+                          {(comment.author?.id === user.id || user.role === 'ADMIN') && (
                             <div className="flex gap-2">
                               <button
                                 onClick={() => {
