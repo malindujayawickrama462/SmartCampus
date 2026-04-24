@@ -94,6 +94,8 @@ public class TicketService {
     public Ticket updateStatus(Long id, TicketStatus newStatus, String notes,
                                 String rejectionReason, User currentUser) {
         Ticket ticket = getById(id);
+        Long reporterId = ticket.getReporter() != null ? ticket.getReporter().getId() : null;
+        System.out.println("💾 TicketService.updateStatus - Ticket ID: " + id + " | Current Reporter ID: " + reporterId);
         
         // Authorization: Only ADMIN, TECHNICIAN assigned to ticket, or reporter can update
         boolean isAdmin = currentUser.getRole() == Role.ADMIN;
@@ -121,6 +123,7 @@ public class TicketService {
             ticket.setRejectionReason(rejectionReason);
         }
         Ticket saved = ticketRepository.save(ticket);
+        System.out.println("✅ Ticket saved. Reporter ID after save: " + (saved.getReporter() != null ? saved.getReporter().getId() : "NULL"));
 
         notificationService.notify(ticket.getReporter(), "TICKET_STATUS_CHANGED",
                 "Your ticket #" + id + " status updated to " + newStatus.name(), id);
@@ -132,11 +135,19 @@ public class TicketService {
         Ticket ticket = getById(ticketId);
         User technician = userRepository.findById(technicianId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        
+        System.out.println("💾 TicketService.assign - Ticket ID: " + ticketId + " | Reporter ID: " + (ticket.getReporter() != null ? ticket.getReporter().getId() : "NULL"));
+        
         ticket.setAssignee(technician);
         if (ticket.getStatus() == TicketStatus.OPEN) {
             ticket.setStatus(TicketStatus.IN_PROGRESS);
         }
-        return ticketRepository.save(ticket);
+        Ticket saved = ticketRepository.save(ticket);
+        System.out.println("✅ Ticket assigned. Reporter ID after save: " + (saved.getReporter() != null ? saved.getReporter().getId() : "NULL"));
+        
+        notificationService.notify(ticket.getReporter(), "TICKET_ASSIGNED",
+                "A technician has been assigned to your ticket #" + ticketId, ticketId);
+        return saved;
     }
 
     @Transactional

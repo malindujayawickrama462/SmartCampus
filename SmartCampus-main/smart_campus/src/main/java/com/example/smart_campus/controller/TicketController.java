@@ -32,7 +32,10 @@ public class TicketController {
     // GET /api/tickets/my - Get current user's tickets
     @GetMapping("/my")
     public ResponseEntity<List<Ticket>> getMyTickets(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(ticketService.getMyTickets(user.getId()));
+        System.out.println("🔍 GET /api/tickets/my - Fetching tickets for user: " + user.getEmail());
+        List<Ticket> tickets = ticketService.getMyTickets(user.getId());
+        System.out.println("✅ Found " + tickets.size() + " tickets for user");
+        return ResponseEntity.ok(tickets);
     }
 
     // GET /api/tickets/assigned - Get tickets assigned to current technician

@@ -12,6 +12,7 @@ public class TicketImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ticket_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonBackReference
     private Ticket ticket;
 
     @Column(nullable = false)
