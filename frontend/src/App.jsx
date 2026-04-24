@@ -13,6 +13,7 @@ import AdminBookings from './pages/AdminBookings';
 import Tickets from './pages/Tickets';
 import AdminTickets from './pages/AdminTickets';
 import ResourceManagement from './pages/ResourceManagement';
+import Notifications from './pages/Notifications';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -21,7 +22,7 @@ const ProtectedRoute = ({ children }) => {
   return (
     <div className="min-h-screen bg-surface text-on-surface">
       <Navbar />
-      <div className="pl-64">
+      <div className="pl-64 pt-16">
         <main className="min-h-screen bg-surface-container p-6 sm:p-8">
           {children}
         </main>
@@ -38,7 +39,7 @@ const AdminRoute = ({ children }) => {
   return (
     <div className="min-h-screen bg-surface text-on-surface">
       <Navbar />
-      <div className="pl-64">
+      <div className="pl-64 pt-16">
         <main className="min-h-screen bg-surface-container p-6 sm:p-8">
           {children}
         </main>
@@ -59,6 +60,7 @@ function App() {
           <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
           <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
           <Route path="/tickets" element={<ProtectedRoute><Tickets /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
           <Route path="/admin/bookings" element={<AdminRoute><AdminBookings /></AdminRoute>} />
           <Route path="/admin/tickets" element={<AdminRoute><AdminTickets /></AdminRoute>} />
           <Route path="/admin/resources" element={<AdminRoute><ResourceManagement /></AdminRoute>} />

@@ -75,6 +75,12 @@ public class BookingService {
         logBookingAudit(saved, booking.getUser(), BookingAuditAction.CREATE,
                 "Booking created for " + resource.getName() + " on " + booking.getBookingDate());
         
+        // Send notification to user that booking was created
+        notificationService.notifyBookingCreated(saved);
+        
+        // Notify admins about pending booking
+        notificationService.notifyAdminPendingBooking(saved);
+        
         return saved;
     }
 
@@ -92,8 +98,9 @@ public class BookingService {
         logBookingAudit(saved, admin, BookingAuditAction.APPROVE,
                 "Booking approved by admin. Note: " + (adminNote != null ? adminNote : "None"));
         
-        notificationService.notify(booking.getUser(), "BOOKING_APPROVED",
-                "Your booking for " + booking.getResource().getName() + " has been approved.", id);
+        // Send notification to user
+        notificationService.notifyBookingApproved(saved, adminNote);
+        
         return saved;
     }
 
@@ -111,8 +118,9 @@ public class BookingService {
         logBookingAudit(saved, admin, BookingAuditAction.REJECT,
                 "Booking rejected. Reason: " + (reason != null ? reason : "No reason provided"));
         
-        notificationService.notify(booking.getUser(), "BOOKING_REJECTED",
-                "Your booking for " + booking.getResource().getName() + " was rejected: " + reason, id);
+        // Send notification to user
+        notificationService.notifyBookingRejected(saved, reason);
+        
         return saved;
     }
 
@@ -142,9 +150,8 @@ public class BookingService {
         logBookingAudit(saved, currentUser, BookingAuditAction.CANCEL,
                 "Booking cancelled by " + cancelledBy);
         
-        // Notify the user about cancellation
-        notificationService.notify(booking.getUser(), "BOOKING_CANCELLED",
-                "Your booking for " + booking.getResource().getName() + " has been cancelled.", id);
+        // Send notification to user
+        notificationService.notifyBookingCancelled(saved);
         
         return saved;
     }
