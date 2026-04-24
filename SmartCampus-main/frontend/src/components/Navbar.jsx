@@ -36,6 +36,12 @@ export default function Navbar() {
           <AlertCircle className="mr-3" />
           <span className="font-semibold text-sm">Incidents</span>
         </Link>
+        {(user?.role === 'TECHNICIAN' || user?.role === 'ADMIN') && (
+          <Link to="/tech/tickets" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
+            <ClipboardList className="mr-3" />
+            <span className="font-semibold text-sm">Assigned Tasks</span>
+          </Link>
+        )}
         {user?.role === 'ADMIN' && (
           <>
             <Link to="/admin/bookings" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">

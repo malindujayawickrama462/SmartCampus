@@ -13,6 +13,7 @@ import AdminBookings from './pages/AdminBookings';
 import Tickets from './pages/Tickets';
 import AdminTickets from './pages/AdminTickets';
 import ResourceManagement from './pages/ResourceManagement';
+import TechnicianTickets from './pages/TechnicianTickets';
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -47,6 +48,23 @@ const AdminRoute = ({ children }) => {
   );
 };
 
+const TechnicianRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="p-8 text-center">Loading...</div>;
+  if (!user) return <Navigate to="/login" />;
+  if (user.role !== 'TECHNICIAN' && user.role !== 'ADMIN') return <Navigate to="/" />;
+  return (
+    <div className="min-h-screen bg-surface text-on-surface">
+      <Navbar />
+      <div className="pl-64">
+        <main className="min-h-screen bg-surface-container p-6 sm:p-8">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
@@ -62,6 +80,7 @@ function App() {
           <Route path="/admin/bookings" element={<AdminRoute><AdminBookings /></AdminRoute>} />
           <Route path="/admin/tickets" element={<AdminRoute><AdminTickets /></AdminRoute>} />
           <Route path="/admin/resources" element={<AdminRoute><ResourceManagement /></AdminRoute>} />
+          <Route path="/tech/tickets" element={<TechnicianRoute><TechnicianTickets /></TechnicianRoute>} />
         </Routes>
       </Router>
       <Toaster position="top-right" />
