@@ -14,13 +14,19 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final ResourceRepository resourceRepository;
     private final NotificationService notificationService;
+    private final BookingAuditRepository bookingAuditRepository;
+    private final UserSessionRepository userSessionRepository;
 
     public BookingService(BookingRepository bookingRepository, 
                           ResourceRepository resourceRepository, 
-                          NotificationService notificationService) {
+                          NotificationService notificationService,
+                          BookingAuditRepository bookingAuditRepository,
+                          UserSessionRepository userSessionRepository) {
         this.bookingRepository = bookingRepository;
         this.resourceRepository = resourceRepository;
         this.notificationService = notificationService;
+        this.bookingAuditRepository = bookingAuditRepository;
+        this.userSessionRepository = userSessionRepository;
     }
 
     public Booking getById(Long id) {
@@ -63,7 +69,13 @@ public class BookingService {
 
         booking.setResource(resource);
         booking.setStatus(BookingStatus.PENDING);
-        return bookingRepository.save(booking);
+        Booking saved = bookingRepository.save(booking);
+        
+        // Log audit trail
+        logBookingAudit(saved, booking.getUser(), BookingAuditAction.CREATE,
+                "Booking created for " + resource.getName() + " on " + booking.getBookingDate());
+        
+        return saved;
     }
 
     @Transactional
@@ -75,6 +87,11 @@ public class BookingService {
         booking.setStatus(BookingStatus.APPROVED);
         booking.setAdminNote(adminNote);
         Booking saved = bookingRepository.save(booking);
+        
+        // Log audit trail
+        logBookingAudit(saved, admin, BookingAuditAction.APPROVE,
+                "Booking approved by admin. Note: " + (adminNote != null ? adminNote : "None"));
+        
         notificationService.notify(booking.getUser(), "BOOKING_APPROVED",
                 "Your booking for " + booking.getResource().getName() + " has been approved.", id);
         return saved;
@@ -89,6 +106,11 @@ public class BookingService {
         booking.setStatus(BookingStatus.REJECTED);
         booking.setAdminNote(reason);
         Booking saved = bookingRepository.save(booking);
+        
+        // Log audit trail
+        logBookingAudit(saved, admin, BookingAuditAction.REJECT,
+                "Booking rejected. Reason: " + (reason != null ? reason : "No reason provided"));
+        
         notificationService.notify(booking.getUser(), "BOOKING_REJECTED",
                 "Your booking for " + booking.getResource().getName() + " was rejected: " + reason, id);
         return saved;
@@ -115,6 +137,11 @@ public class BookingService {
         booking.setStatus(BookingStatus.CANCELLED);
         Booking saved = bookingRepository.save(booking);
         
+        // Log audit trail
+        String cancelledBy = isOwner ? "User" : "Admin";
+        logBookingAudit(saved, currentUser, BookingAuditAction.CANCEL,
+                "Booking cancelled by " + cancelledBy);
+        
         // Notify the user about cancellation
         notificationService.notify(booking.getUser(), "BOOKING_CANCELLED",
                 "Your booking for " + booking.getResource().getName() + " has been cancelled.", id);
@@ -126,4 +153,41 @@ public class BookingService {
     public List<Booking> getUserBookingsByStatus(Long userId, BookingStatus status) {
         return bookingRepository.findByUserIdAndStatus(userId, status);
     }
+
+    @Transactional
+    private void logBookingAudit(Booking booking, User user, BookingAuditAction action, String details) {
+        BookingAudit audit = new BookingAudit(booking, user, action, details);
+        bookingAuditRepository.save(audit);
+    }
+
+    // Get booking audit history
+    @Transactional(readOnly = true)
+    public List<BookingAudit> getBookingAuditHistory(Long bookingId) {
+        return bookingAuditRepository.findByBookingIdOrderByTimestampDesc(bookingId);
+    }
+
+    // Get user's booking audit activity (for admins)
+    @Transactional(readOnly = true)
+    public List<BookingAudit> getUserAuditActivity(Long userId) {
+        return bookingAuditRepository.findByUserId(userId);
+    }
+
+    // Check concurrent booking limits
+    @Transactional(readOnly = true)
+    public Integer getActiveConcurrentBookings(Long userId) {
+        List<Booking> activeBookings = bookingRepository.findByUserId(userId).stream()
+                .filter(b -> b.getStatus() == BookingStatus.APPROVED || b.getStatus() == BookingStatus.PENDING)
+                .toList();
+        return activeBookings.size();
+    }
+
+    // Get active sessions for user
+    @Transactional(readOnly = true)
+    public List<UserSession> getActiveSessions(Long userId, User user) {
+        if (!user.getId().equals(userId) && user.getRole() != Role.ADMIN) {
+            throw new ForbiddenException("Not authorized to view sessions");
+        }
+        return userSessionRepository.findByUserAndActiveTrue(new User(userId, null, null, null, null, null, null, null, null));
+    }
 }
+

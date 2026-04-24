@@ -28,9 +28,11 @@ export default function Register() {
         email: form.email,
         password: form.password,
       });
-      const token = result.data.token;
-      if (token) {
-        await loginWithToken(token);
+      
+      const { accessToken, refreshToken, sessionId } = result.data;
+      if (accessToken && refreshToken) {
+        await loginWithToken(accessToken, refreshToken, sessionId);
+        toast.success('Account created successfully');
         navigate('/');
       }
     } catch (err) {

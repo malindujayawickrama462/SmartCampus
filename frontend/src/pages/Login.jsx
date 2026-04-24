@@ -26,6 +26,21 @@ export default function Login() {
     }
   };
 
+  // Generate device fingerprint for session tracking
+  const generateDeviceFingerprint = () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillStyle = '#f60';
+    ctx.fillRect(125, 1, 62, 20);
+    ctx.fillStyle = '#069';
+    ctx.fillText('Browser Fingerprint', 2, 15);
+    const fingerprint = canvas.toDataURL();
+    return fingerprint.slice(0, 50); // Use first 50 chars as fingerprint
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.email || !form.password) {
@@ -35,10 +50,25 @@ export default function Login() {
 
     try {
       setSubmitting(true);
-      const res = await api.post('/auth/login', { email: form.email, password: form.password });
-      await loginWithToken(res.data.token);
+      const deviceFingerprint = generateDeviceFingerprint();
+      
+      const res = await api.post('/auth/login', { 
+        email: form.email, 
+        password: form.password,
+        deviceFingerprint: deviceFingerprint
+      });
+      
+      await loginWithToken(
+        res.data.accessToken,
+        res.data.refreshToken,
+        res.data.sessionId,
+        deviceFingerprint
+      );
+      
+      toast.success('Logged in successfully');
       navigate('/');
     } catch (error) {
+      console.error('Login error:', error);
       toast.error(error.response?.data?.error || 'Login failed');
     } finally {
       setSubmitting(false);

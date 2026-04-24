@@ -35,6 +35,13 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getUserBookingsByStatus(user.getId(), status));
     }
 
+    // GET /api/bookings/my/concurrent-count - Get concurrent active bookings count
+    @GetMapping("/my/concurrent-count")
+    public ResponseEntity<Map<String, Integer>> getConcurrentBookingCount(@AuthenticationPrincipal User user) {
+        Integer count = bookingService.getActiveConcurrentBookings(user.getId());
+        return ResponseEntity.ok(Map.of("activeConcurrentBookings", count));
+    }
+
     // GET /api/bookings - Get all bookings (ADMIN only, optional status filter)
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -56,10 +63,36 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
 
+    // GET /api/bookings/{id}/audit - Get booking audit history
+    @GetMapping("/{id}/audit")
+    public ResponseEntity<List<BookingAudit>> getBookingAuditHistory(@PathVariable Long id,
+                                                                      @AuthenticationPrincipal User user) {
+        Booking booking = bookingService.getById(id);
+        // Users can only view audit history for their own bookings unless they are admins
+        if (!booking.getUser().getId().equals(user.getId()) && user.getRole() != Role.ADMIN) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        return ResponseEntity.ok(bookingService.getBookingAuditHistory(id));
+    }
+
+    // GET /api/bookings/audit/user/{userId} - Get all audit activity for a user (ADMIN only)
+    @GetMapping("/audit/user/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<BookingAudit>> getUserAuditActivity(@PathVariable Long userId) {
+        return ResponseEntity.ok(bookingService.getUserAuditActivity(userId));
+    }
+
     // POST /api/bookings - Create a booking request
     @PostMapping
     public ResponseEntity<Booking> create(@RequestBody Booking booking,
                                           @AuthenticationPrincipal User user) {
+        // Check concurrent booking limits (max 5 concurrent bookings)
+        Integer concurrentCount = bookingService.getActiveConcurrentBookings(user.getId());
+        if (concurrentCount >= 5) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(null); // or return a proper error response
+        }
+
         booking.setUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.createBooking(booking));
     }
