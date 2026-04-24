@@ -68,7 +68,6 @@ public class AuthController {
         return ResponseEntity.status(201).body(Map.of("token", token));
     }
 
-    // POST /api/auth/login - login local user
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> body) {
         String email = body.get("email");
@@ -80,15 +79,18 @@ public class AuthController {
 
         User user = userRepository.findByEmail(email).orElse(null);
         if (user == null) {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+            System.out.println("Login Failed: User not found for email: " + email);
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials (user not found)"));
         }
 
         if (!"local".equals(user.getProvider())) {
+            System.out.println("Login Failed: User registered via " + user.getProvider() + " for email: " + email);
             return ResponseEntity.status(403).body(Map.of("error", "Use OAuth login for this account"));
         }
 
         if (user.getPassword() == null || !passwordEncoder.matches(password, user.getPassword())) {
-            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+            System.out.println("Login Failed: Incorrect password for email: " + email);
+            return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials (incorrect password)"));
         }
 
         String token = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
