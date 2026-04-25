@@ -3,18 +3,22 @@ package com.example.smart_campus.service;
 import com.example.smart_campus.model.Notification;
 import com.example.smart_campus.model.User;
 import com.example.smart_campus.repository.NotificationRepository;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(NotificationRepository notificationRepository) {
+    public NotificationService(NotificationRepository notificationRepository,
+                                SimpMessagingTemplate messagingTemplate) {
         this.notificationRepository = notificationRepository;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public List<Notification> getMyNotifications(Long userId) {
@@ -35,6 +39,16 @@ public class NotificationService {
                 .isRead(false)
                 .build();
         notificationRepository.save(notification);
+
+        messagingTemplate.convertAndSend(
+            "/topic/notifications/" + user.getId(),
+            Map.of(
+                "id", notification.getId() != null ? notification.getId() : 0L,
+                "type", type,
+                "message", message,
+                "referenceId", referenceId != null ? referenceId : 0L
+            )
+        );
     }
 
     @Transactional

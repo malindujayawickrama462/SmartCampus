@@ -19,7 +19,7 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       const res = await api.get('/auth/login/google');
-      window.location.href = `http://localhost:8080${res.data.url}`;
+      window.location.href = `http://localhost:8081${res.data.url}`;
     } catch (error) {
       console.error('Failed to initiate login', error);
       toast.error('Unable to start Google login');

@@ -44,9 +44,13 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/error").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/resources/**").permitAll()
                 .requestMatchers("/uploads/**").permitAll()
+                // WebSocket handshake (SockJS)
+                .requestMatchers("/ws/**").permitAll()
                 // OAuth2 flow
                 .requestMatchers("/oauth2/**", "/login/**").permitAll()
                 // Admin-only
@@ -73,7 +77,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(allowedOrigins.split(",")));
+        String[] originArray = allowedOrigins.split(",");
+        List<String> origins = new java.util.ArrayList<>();
+        for (String origin : originArray) {
+            origins.add(origin.trim());
+        }
+        config.setAllowedOrigins(origins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

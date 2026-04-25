@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SmartCampusApplication<smart_campus>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.smart_campus.SmartCampusApplication",
+            "projectName": "smart_campus",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
