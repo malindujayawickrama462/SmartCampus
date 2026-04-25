@@ -34,4 +34,17 @@ public class AdminController {
         Role role = Role.valueOf(body.get("role"));
         return ResponseEntity.ok(userService.updateRole(id, role));
     }
+
+    // PUT /api/admin/users/{id} - Update user details
+    @PutMapping("/users/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        return ResponseEntity.ok(userService.update(id, user));
+    }
+
+    // DELETE /api/admin/users/{id} - Delete user
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

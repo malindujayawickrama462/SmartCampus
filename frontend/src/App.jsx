@@ -14,6 +14,7 @@ import AdminBookings from './pages/AdminBookings';
 import Tickets from './pages/Tickets';
 import AdminTickets from './pages/AdminTickets';
 import ResourceManagement from './pages/ResourceManagement';
+import AdminUsers from './pages/AdminUsers';
 import Notifications from './pages/Notifications';
 
 const ProtectedRoute = ({ children }) => {
@@ -66,6 +67,7 @@ function App() {
             <Route path="/admin/bookings" element={<AdminRoute><AdminBookings /></AdminRoute>} />
             <Route path="/admin/tickets" element={<AdminRoute><AdminTickets /></AdminRoute>} />
             <Route path="/admin/resources" element={<AdminRoute><ResourceManagement /></AdminRoute>} />
+            <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
           </Routes>
         </Router>
         <Toaster position="top-right" />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogOut, Home, Calendar, LayoutGrid, AlertCircle, ShieldCheck, ClipboardList, Bell } from 'lucide-react';
+import { LogOut, Home, Calendar, LayoutGrid, AlertCircle, ShieldCheck, ClipboardList, Bell, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNotifications } from '../context/NotificationContext';
 import NotificationPanel from './NotificationPanel';
@@ -53,6 +53,10 @@ export default function Navbar() {
             <Link to="/admin/resources" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
               <ShieldCheck className="mr-3" />
               <span className="font-semibold text-sm">Manage Resources</span>
+            </Link>
+            <Link to="/admin/users" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
+              <User className="mr-3" />
+              <span className="font-semibold text-sm">Manage Users</span>
             </Link>
           </>
         )}

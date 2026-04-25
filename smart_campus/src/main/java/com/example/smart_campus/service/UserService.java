@@ -42,4 +42,24 @@ public class UserService {
         user.setRole(newRole);
         return userRepository.save(user);
     }
+
+    @Transactional
+    public User update(Long id, User updates) {
+        User user = getById(id);
+        user.setEmail(updates.getEmail());
+        user.setName(updates.getName());
+        user.setRole(updates.getRole());
+        if (updates.getAvatarUrl() != null) {
+            user.setAvatarUrl(updates.getAvatarUrl());
+        }
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("User not found: " + id);
+        }
+        userRepository.deleteById(id);
+    }
 }

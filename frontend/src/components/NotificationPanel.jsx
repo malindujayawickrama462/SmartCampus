@@ -1,59 +1,65 @@
-import React, { useState } from 'react';
-import { X, Check, CheckCheck, Clock } from 'lucide-react';
+import React from 'react';
+import { X, CheckCheck, Clock, Bell, Info, AlertCircle, CheckCircle2, MessageSquare, ArrowRight } from 'lucide-react';
 import { useNotifications } from '../context/NotificationContext';
 
 const NotificationPanel = ({ isOpen, onClose }) => {
   const { notifications, unreadCount, markAsRead, markAllAsRead, isLoading } = useNotifications();
-  const [selectedNotification, setSelectedNotification] = useState(null);
 
-  const getNotificationColor = (type) => {
+  const getNotificationStyles = (type) => {
     switch (type) {
       case 'BOOKING_APPROVED':
-        return 'border-l-4 border-l-green-500 bg-green-50';
+        return {
+          icon: <CheckCircle2 className="text-emerald-500" size={20} />,
+          bg: 'bg-emerald-50/50',
+          border: 'border-emerald-100',
+          accent: 'bg-emerald-500'
+        };
       case 'BOOKING_REJECTED':
-        return 'border-l-4 border-l-red-500 bg-red-50';
+        return {
+          icon: <AlertCircle className="text-rose-500" size={20} />,
+          bg: 'bg-rose-50/50',
+          border: 'border-rose-100',
+          accent: 'bg-rose-500'
+        };
       case 'BOOKING_CANCELLED':
-        return 'border-l-4 border-l-yellow-500 bg-yellow-50';
+        return {
+          icon: <Info className="text-amber-500" size={20} />,
+          bg: 'bg-amber-50/50',
+          border: 'border-amber-100',
+          accent: 'bg-amber-500'
+        };
       case 'TICKET_STATUS_CHANGED':
-        return 'border-l-4 border-l-blue-500 bg-blue-50';
+        return {
+          icon: <Bell className="text-blue-500" size={20} />,
+          bg: 'bg-blue-50/50',
+          border: 'border-blue-100',
+          accent: 'bg-blue-500'
+        };
       case 'NEW_COMMENT':
-        return 'border-l-4 border-l-purple-500 bg-purple-50';
+        return {
+          icon: <MessageSquare className="text-indigo-500" size={20} />,
+          bg: 'bg-indigo-50/50',
+          border: 'border-indigo-100',
+          accent: 'bg-indigo-500'
+        };
       default:
-        return 'border-l-4 border-l-gray-500 bg-gray-50';
-    }
-  };
-
-  const getNotificationIcon = (type) => {
-    switch (type) {
-      case 'BOOKING_APPROVED':
-        return '✅';
-      case 'BOOKING_REJECTED':
-        return '❌';
-      case 'BOOKING_CANCELLED':
-        return '⏸️';
-      case 'TICKET_STATUS_CHANGED':
-        return '🔄';
-      case 'NEW_COMMENT':
-        return '💬';
-      default:
-        return '📢';
+        return {
+          icon: <Bell className="text-slate-500" size={20} />,
+          bg: 'bg-slate-50/50',
+          border: 'border-slate-100',
+          accent: 'bg-slate-500'
+        };
     }
   };
 
   const getNotificationTitle = (type) => {
     switch (type) {
-      case 'BOOKING_APPROVED':
-        return 'Booking Approved';
-      case 'BOOKING_REJECTED':
-        return 'Booking Rejected';
-      case 'BOOKING_CANCELLED':
-        return 'Booking Cancelled';
-      case 'TICKET_STATUS_CHANGED':
-        return 'Ticket Status Updated';
-      case 'NEW_COMMENT':
-        return 'New Comment';
-      default:
-        return 'Notification';
+      case 'BOOKING_APPROVED': return 'Booking Approved';
+      case 'BOOKING_REJECTED': return 'Booking Rejected';
+      case 'BOOKING_CANCELLED': return 'Booking Cancelled';
+      case 'TICKET_STATUS_CHANGED': return 'Ticket Updated';
+      case 'NEW_COMMENT': return 'New Comment';
+      default: return 'Notification';
     }
   };
 
@@ -69,119 +75,157 @@ const NotificationPanel = ({ isOpen, onClose }) => {
     if (diffMins < 60) return `${diffMins}m ago`;
     if (diffHours < 24) return `${diffHours}h ago`;
     if (diffDays < 7) return `${diffDays}d ago`;
-    
     return date.toLocaleDateString();
   };
 
   if (!isOpen) return null;
 
-  const unreadNotifications = notifications.filter(n => !n.isRead);
-
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden">
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-[100] overflow-hidden">
+      {/* Backdrop with Blur */}
       <div 
-        className="absolute inset-0 bg-black bg-opacity-50 transition-opacity"
+        className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300"
         onClick={onClose}
       ></div>
 
-      {/* Panel */}
-      <div className="absolute right-0 top-0 h-full w-96 bg-white shadow-lg flex flex-col">
+      {/* Side Panel */}
+      <div className="absolute right-0 top-0 h-full w-full sm:w-[400px] bg-white shadow-2xl flex flex-col transform transition-transform duration-300 ease-out border-l border-slate-200">
+        
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 bg-white/80 backdrop-blur-md sticky top-0 z-10">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Notifications</h2>
-            {unreadCount > 0 && (
-              <p className="text-sm text-gray-600">{unreadCount} unread</p>
-            )}
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              Notifications
+              {unreadCount > 0 && (
+                <span className="inline-flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-blue-600 rounded-full animate-pulse">
+                  {unreadCount}
+                </span>
+              )}
+            </h2>
+            <p className="text-sm text-slate-500 mt-0.5">Stay updated with your campus activities</p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
           >
-            <X size={24} />
+            <X size={20} />
           </button>
         </div>
 
-        {/* Action Bar */}
+        {/* Quick Actions */}
         {unreadCount > 0 && (
-          <div className="px-4 py-2 bg-gray-50 border-b">
+          <div className="px-6 py-3 bg-slate-50/80 border-b border-slate-100 flex justify-between items-center">
+            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Unread Messages</span>
             <button
               onClick={markAllAsRead}
-              className="text-sm text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1"
+              className="text-xs text-blue-600 hover:text-blue-700 font-bold flex items-center gap-1.5 transition-colors"
             >
-              <CheckCheck size={16} />
+              <CheckCheck size={14} />
               Mark all as read
             </button>
           </div>
         )}
 
         {/* Notifications List */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto custom-scrollbar">
           {isLoading ? (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-gray-500">Loading notifications...</div>
+            <div className="flex flex-col items-center justify-center h-full space-y-3">
+              <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+              <p className="text-slate-500 text-sm font-medium">Syncing notifications...</p>
             </div>
           ) : notifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500">
-              <Clock size={48} className="mb-2 text-gray-300" />
-              <p>No notifications yet</p>
+            <div className="flex flex-col items-center justify-center h-full px-10 text-center">
+              <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-4">
+                <Bell size={40} className="text-slate-200" />
+              </div>
+              <h3 className="text-slate-900 font-bold text-lg">All caught up!</h3>
+              <p className="text-slate-500 text-sm mt-2 leading-relaxed">
+                You don't have any notifications at the moment. We'll let you know when something happens.
+              </p>
             </div>
           ) : (
-            <div className="divide-y">
-              {notifications.map((notification) => (
-                <div
-                  key={notification.id}
-                  className={`p-4 cursor-pointer transition-colors hover:bg-gray-50 ${getNotificationColor(notification.type)} ${
-                    !notification.isRead ? 'bg-opacity-100' : 'bg-opacity-50'
-                  }`}
-                  onClick={() => {
-                    setSelectedNotification(notification);
-                    if (!notification.isRead) {
-                      markAsRead(notification.id);
-                    }
-                  }}
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="text-xl flex-shrink-0">
-                      {getNotificationIcon(notification.type)}
-                    </span>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-start justify-between">
-                        <h3 className="font-semibold text-gray-900 text-sm">
-                          {getNotificationTitle(notification.type)}
-                        </h3>
-                        {!notification.isRead && (
-                          <span className="ml-2 w-2 h-2 bg-blue-600 rounded-full flex-shrink-0 mt-1"></span>
+            <div className="divide-y divide-slate-50">
+              {notifications.map((notification) => {
+                const styles = getNotificationStyles(notification.type);
+                return (
+                  <div
+                    key={notification.id}
+                    className={`group relative p-6 cursor-pointer transition-all hover:bg-slate-50/80 ${
+                      !notification.isRead ? 'bg-white' : 'bg-slate-50/30'
+                    }`}
+                    onClick={() => {
+                      if (!notification.isRead) {
+                        markAsRead(notification.id);
+                      }
+                    }}
+                  >
+                    {!notification.isRead && (
+                      <div className={`absolute left-0 top-0 bottom-0 w-1 ${styles.accent}`}></div>
+                    )}
+                    
+                    <div className="flex items-start gap-4">
+                      <div className={`mt-1 w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${styles.bg} border ${styles.border} group-hover:scale-110 transition-transform duration-200`}>
+                        {styles.icon}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <h4 className={`text-sm font-bold truncate ${!notification.isRead ? 'text-slate-900' : 'text-slate-600'}`}>
+                            {getNotificationTitle(notification.type)}
+                          </h4>
+                          <div className="flex items-center text-[10px] font-medium text-slate-400 whitespace-nowrap">
+                            <Clock size={10} className="mr-1" />
+                            {formatTime(notification.createdAt)}
+                          </div>
+                        </div>
+                        
+                        <p className={`text-sm mt-1 leading-relaxed ${!notification.isRead ? 'text-slate-700 font-medium' : 'text-slate-500'}`}>
+                          {notification.message}
+                        </p>
+                        
+                        {notification.referenceId && (
+                          <div className="mt-3 flex items-center gap-1.5 text-[11px] font-bold text-blue-600 hover:text-blue-700 uppercase tracking-tighter cursor-pointer group/link">
+                            View details
+                            <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" />
+                          </div>
                         )}
                       </div>
-                      <p className="text-gray-700 text-sm mt-1 line-clamp-2">
-                        {notification.message}
-                      </p>
-                      <p className="text-gray-500 text-xs mt-2">
-                        {formatTime(notification.createdAt)}
-                      </p>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
 
         {/* Footer */}
         {notifications.length > 0 && (
-          <div className="border-t p-4 bg-gray-50">
-            <a
-              href="/notifications"
-              onClick={() => onClose()}
-              className="text-center block text-blue-600 hover:text-blue-700 text-sm font-medium"
+          <div className="p-6 bg-white border-t border-slate-100">
+            <button
+              onClick={onClose}
+              className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-slate-200 active:scale-[0.98]"
             >
-              View all notifications →
-            </a>
+              Clear View
+            </button>
           </div>
         )}
       </div>
+
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #e2e8f0;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #cbd5e1;
+        }
+      `}</style>
     </div>
   );
 };
