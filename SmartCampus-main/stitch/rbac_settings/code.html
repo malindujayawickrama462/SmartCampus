@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Role Management | Smart Campus Operations Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f7f9fb",
+              "tertiary-fixed": "#6ffbbe",
+              "surface-container-highest": "#e0e3e5",
+              "on-secondary-fixed": "#0d1c2e",
+              "primary-fixed": "#d6e3ff",
+              "surface-container-high": "#e6e8ea",
+              "on-secondary-container": "#57657a",
+              "error-container": "#ffdad6",
+              "surface-variant": "#e0e3e5",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed": "#002113",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-fixed-dim": "#b9c7df",
+              "primary": "#000a1e",
+              "tertiary": "#000d06",
+              "primary-container": "#002147",
+              "on-primary-fixed-variant": "#2d476f",
+              "on-background": "#191c1e",
+              "primary-fixed-dim": "#aec7f6",
+              "on-tertiary": "#ffffff",
+              "surface": "#f7f9fb",
+              "on-primary-fixed": "#001b3d",
+              "on-primary-container": "#708ab5",
+              "surface-dim": "#d8dadc",
+              "on-tertiary-container": "#009c6b",
+              "on-error": "#ffffff",
+              "outline-variant": "#c4c6cf",
+              "on-secondary-fixed-variant": "#3a485b",
+              "secondary": "#515f74",
+              "inverse-surface": "#2d3133",
+              "inverse-primary": "#aec7f6",
+              "surface-bright": "#f7f9fb",
+              "outline": "#74777f",
+              "error": "#ba1a1a",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f2f4f6",
+              "secondary-fixed": "#d5e3fc",
+              "secondary-container": "#d5e3fc",
+              "surface-tint": "#465f88",
+              "surface-container": "#eceef0",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-primary": "#ffffff",
+              "on-surface-variant": "#44474e",
+              "tertiary-container": "#002718",
+              "on-surface": "#191c1e",
+              "on-secondary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#000a1e] dark:bg-[#000a1e] backdrop-blur-md opacity-95 flex flex-col py-8 px-4 z-50">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-bold tracking-tight text-white font-headline">Campus Hub</h1>
+<p class="text-xs font-label text-secondary-fixed-dim tracking-wide mt-1">Operations Admin</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="font-label text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center px-4 py-3 border-l-4 border-[#6ffbbe] bg-slate-800/30 text-white transition-colors duration-200 group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label text-sm font-medium">Role Management</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="key">key</span>
+<span class="font-label text-sm font-medium">Permissions</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="group">group</span>
+<span class="font-label text-sm font-medium">User Directory</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="receipt_long">receipt_long</span>
+<span class="font-label text-sm font-medium">System Logs</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+<span class="font-label text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-8 border-t border-slate-800/50 space-y-1">
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="help_outline">help_outline</span>
+<span class="font-label text-sm font-medium">Help</span>
+</a>
+<a class="flex items-center px-4 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="logout">logout</span>
+<span class="font-label text-sm font-medium">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 bg-[#f7f9fb] dark:bg-[#0d1117] flex justify-between items-center h-16 px-14 w-full">
+<div class="flex items-center flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-secondary-container text-sm" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 text-sm focus:ring-2 focus:ring-primary-container placeholder-on-secondary-container/50" placeholder="Search roles, permissions, or members..." type="text"/>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<button class="flex items-center space-x-2 text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="flex items-center space-x-2 text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="apps">apps</span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center space-x-3">
+<div class="text-right">
+<p class="text-xs font-bold text-primary font-headline">Dr. Aris Thorne</p>
+<p class="text-[10px] text-secondary">System Architect</p>
+</div>
+<img class="h-9 w-9 rounded-full object-cover border border-outline-variant/20" data-alt="Close-up portrait of a professional male architect in a studio with soft daylight and minimal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFajauy3Q1MrWB-iUorJAbI7d5x8tK9Au-srgAxTdKBLNkpW7On8B_aePr5472WrKXIvaFgtyVbJbMCVSuEp74wwz1j1mi2pT997RwOTObWhdhoPu_NrQI_y9Lv9z9-RZUD1KfNfq5eQ-UK7UalVATo4lkkLSvHZ7ARB2d0rYw10tOo-cAn4QVNndu_EnWffYP5OgkQa2ImIFkMnEpDCV6L5Rzca2WGVafHdXf--erM2u1pPiH2giUYqaJNFvRVh3be55kLh_SA0dE"/>
+</div>
+</div>
+</header>
+<!-- Page Header Section -->
+<section class="px-14 py-8">
+<div class="flex justify-between items-end">
+<div>
+<nav class="flex items-center space-x-2 text-xs font-label text-secondary mb-2 uppercase tracking-widest">
+<span>Security</span>
+<span class="material-symbols-outlined text-[12px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-primary font-semibold">Access Control</span>
+</nav>
+<h2 class="text-4xl font-extrabold font-headline text-primary tracking-tight">Role Management</h2>
+<p class="text-secondary mt-2 max-w-2xl font-body text-sm leading-relaxed">
+                        Define institutional hierarchies and assign functional granularities. Changes to roles propagate across all connected campus systems in real-time.
+                    </p>
+</div>
+<div class="flex space-x-3">
+<button class="flex items-center px-5 py-2.5 bg-surface-container-high text-primary text-sm font-semibold rounded-xl hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined mr-2" data-icon="file_download">file_download</span>
+                        Export Data
+                    </button>
+<button class="flex items-center px-5 py-2.5 bg-gradient-to-b from-primary to-primary-container text-white text-sm font-semibold rounded-xl shadow-lg shadow-primary/10 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined mr-2" data-icon="add">add</span>
+                        Create New Role
+                    </button>
+</div>
+</div>
+</section>
+<!-- Bento Layout Content -->
+<section class="px-14 pb-14">
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- Role List (Col 1-4) -->
+<div class="col-span-12 lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low rounded-2xl p-6 overflow-hidden">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold font-headline text-primary uppercase tracking-wider">Active System Roles</h3>
+<span class="px-2 py-0.5 bg-primary-container text-[10px] text-on-primary-container rounded font-bold">5 TOTAL</span>
+</div>
+<div class="space-y-3">
+<!-- Role Item: Active -->
+<div class="p-4 rounded-xl bg-surface-container-lowest border-l-4 border-tertiary-fixed shadow-sm cursor-pointer group transition-all">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-primary font-headline">Super Admin</span>
+<span class="material-symbols-outlined text-tertiary-fixed text-lg" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-xs text-secondary leading-tight mb-3">Unrestricted access to all institutional modules and settings.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="h-6 w-6 rounded-full border-2 border-surface-container-lowest" data-alt="Headshot of a man with short hair in a professional setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnV2_FvrWIy3DSdlXvTrGS-bUW8zOYB26uXp6W32YdsPngaikYkVwqW94tgbLn2P6ie_5fhLxWRp7VF98gTen_ytmYRuO7Pude1u8smkoAGdovg-sUYFePU6YmxxYsn6m1rAAuio7UikG7QrguSRjcxB2ENSdGd9-xg7h5V-PpppZxzdNBdCAE2HsoTcYVykkN7gjGmgBIguWLbXpOfOXXhzLdK31cd93FHZWhyCQfbclzZRT_H94xdEoxP6PkwUEPaJofqO-Xz4zU"/>
+<img class="h-6 w-6 rounded-full border-2 border-surface-container-lowest" data-alt="Portrait of a smiling woman in a professional office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFvIpccY6HCx-ZHL4XssxObM0eMSKm_hAOaudg-5XwbILBlASd-cBNp9tj7Wn1kC4JUvsNGHSzO9aPTFWel5o7pCAXn9IQkggASTAlUHerQD-XoiqnK2-QPXZQCl0LEueaKaxM5IaXcmfrn-TWTXCCzwb_OYUhT7r7tCg2XjAIaaCaYbLVX63pZTDkZgVNxP_I1CWDeX_vGbKsOkFEk88iqO1P8JR1-VDoW8YWuXbZCbyzOFnmSGyxvAXUadgXvRX3Gbse5seYa-YU"/>
+<div class="h-6 w-6 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center text-[8px] font-bold">+1</div>
+</div>
+<span class="text-[10px] font-label font-semibold text-secondary">3 USERS</span>
+</div>
+</div>
+<!-- Role Item -->
+<div class="p-4 rounded-xl bg-surface hover:bg-surface-container-lowest transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-primary font-headline">Campus Manager</span>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="edit">edit</span>
+</div>
+<p class="text-xs text-secondary leading-tight mb-3">Manages facility bookings and department-level logistics.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<img class="h-6 w-6 rounded-full border-2 border-surface-container-lowest" data-alt="Natural sunlight portrait of a young woman with a thoughtful expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmG_Jv8u0t5QEPEI-cnLiYMZSCENoMeLFPMUs3mQlvUIYjEVBWkfyYgvnyj3Q7KTZ3KY4QB-N5g9UPkFNEIgwLlOU_NP4D-ciruTfyyYETIZYahb08hBgxI_LZn25Ernla8PlAg1XgwTyM2k_wzbMfef4vkHZ-prl3SwIuFQffYul87LFNeYmUKO40rvPFk2mPfeyn63hDyro1JyCqUkjBBemJo43ipBAiYIuM13kNOzf2muJQuRKnT2WrBx6QnmRiPusPKVutMUOo"/>
+<div class="h-6 w-6 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center text-[8px] font-bold">+11</div>
+</div>
+<span class="text-[10px] font-label font-semibold text-secondary">12 USERS</span>
+</div>
+</div>
+<!-- Role Item -->
+<div class="p-4 rounded-xl bg-surface hover:bg-surface-container-lowest transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-primary font-headline">Technical Staff</span>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="edit">edit</span>
+</div>
+<p class="text-xs text-secondary leading-tight mb-3">Maintains infrastructure and responds to campus incidents.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="h-6 w-6 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center text-[8px] font-bold">24</div>
+</div>
+<span class="text-[10px] font-label font-semibold text-secondary">24 USERS</span>
+</div>
+</div>
+<!-- Role Item -->
+<div class="p-4 rounded-xl bg-surface hover:bg-surface-container-lowest transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-1">
+<span class="text-sm font-bold text-primary font-headline">Standard User</span>
+<span class="material-symbols-outlined text-outline-variant opacity-0 group-hover:opacity-100 transition-opacity" data-icon="edit">edit</span>
+</div>
+<p class="text-xs text-secondary leading-tight mb-3">Faculty and students with read-only view of standard logs.</p>
+<div class="flex items-center justify-between">
+<div class="flex -space-x-2">
+<div class="h-6 w-6 rounded-full bg-surface-container-high border-2 border-surface-container-lowest flex items-center justify-center text-[8px] font-bold">1k+</div>
+</div>
+<span class="text-[10px] font-label font-semibold text-secondary">1,402 USERS</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Audit Log (Recent Changes) -->
+<div class="bg-surface-container-low rounded-2xl p-6">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold font-headline text-primary uppercase tracking-wider">Security Audit</h3>
+<a class="text-[10px] font-bold text-on-primary-container hover:underline" href="#">VIEW FULL LOG</a>
+</div>
+<div class="space-y-4">
+<div class="flex gap-3">
+<div class="h-8 w-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="update">update</span>
+</div>
+<div>
+<p class="text-xs font-semibold text-primary">Modified 'Campus Manager'</p>
+<p class="text-[10px] text-secondary">Updated by admin_thorne • 2h ago</p>
+</div>
+</div>
+<div class="flex gap-3">
+<div class="h-8 w-8 rounded-lg bg-surface flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-sm text-secondary" data-icon="person_add">person_add</span>
+</div>
+<div>
+<p class="text-xs font-semibold text-primary">Assigned 'Tech Staff' to 4 users</p>
+<p class="text-[10px] text-secondary">Automated System Policy • 5h ago</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Permission Matrix (Col 5-12) -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden">
+<div class="p-8 border-b border-outline-variant/15 flex justify-between items-center">
+<div>
+<h3 class="text-xl font-bold font-headline text-primary tracking-tight">Permission Configuration: Super Admin</h3>
+<p class="text-sm text-secondary mt-1">Granular access definitions for core system modules.</p>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-semibold text-on-tertiary-fixed-variant bg-tertiary-fixed/30 px-3 py-1 rounded-full">Status: Immutable</span>
+</div>
+</div>
+<div class="p-0">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-8 py-4 text-[10px] font-bold text-on-secondary-container uppercase tracking-widest">Functional Scope</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-secondary-container uppercase tracking-widest text-center">View</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-secondary-container uppercase tracking-widest text-center">Create</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-secondary-container uppercase tracking-widest text-center">Update</th>
+<th class="px-8 py-4 text-[10px] font-bold text-on-secondary-container uppercase tracking-widest text-center">Delete</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/10">
+<!-- Module: Infrastructure -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="h-8 w-8 bg-surface-container-high rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="domain">domain</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Infrastructure Module</p>
+<p class="text-[10px] text-secondary">Campus layouts, assets, and rooms.</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+</tr>
+<!-- Module: User Data -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="h-8 w-8 bg-surface-container-high rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="fingerprint">fingerprint</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Identity Governance</p>
+<p class="text-[10px] text-secondary">User profiles, credentials, and biometrics.</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+</tr>
+<!-- Module: Financials -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="h-8 w-8 bg-surface-container-high rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="account_balance">account_balance</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Campus Ledger</p>
+<p class="text-[10px] text-secondary">Transaction logs, invoices, and billing.</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-surface-container-high rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-outline rounded-full"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-surface-container-high rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-outline rounded-full"></div>
+</div>
+</td>
+</tr>
+<!-- Module: Advanced System -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5">
+<div class="flex items-center space-x-3">
+<div class="h-8 w-8 bg-surface-container-high rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="settings_suggest">settings_suggest</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-primary">Kernel Settings</p>
+<p class="text-[10px] text-secondary">API keys, webhook config, system resets.</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-tertiary-fixed/40 rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-on-tertiary-fixed-variant rounded-full translate-x-4"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-surface-container-high rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-outline rounded-full"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-surface-container-high rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-outline rounded-full"></div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<div class="inline-flex h-5 w-9 bg-surface-container-high rounded-full relative items-center px-1">
+<div class="h-3 w-3 bg-outline rounded-full"></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Matrix Footer Controls -->
+<div class="p-8 bg-surface-container-low flex justify-between items-center">
+<p class="text-xs text-secondary italic">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="info">info</span>
+                                Some permissions are locked by global security policy.
+                            </p>
+<div class="flex space-x-3">
+<button class="px-6 py-2 text-sm font-semibold text-secondary hover:text-primary transition-colors">Discard Changes</button>
+<button class="px-8 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-container transition-colors shadow-lg shadow-primary/20">Apply Changes</button>
+</div>
+</div>
+</div>
+<!-- Quick Tools Asymmetric Grid -->
+<div class="mt-6 grid grid-cols-2 gap-6">
+<div class="bg-primary text-white p-6 rounded-2xl flex flex-col justify-between h-40">
+<div>
+<span class="material-symbols-outlined mb-2" data-icon="auto_awesome">auto_awesome</span>
+<h4 class="text-sm font-bold uppercase tracking-widest font-headline">Smart Suggestions</h4>
+<p class="text-xs opacity-70 mt-1">Based on common industry standards for academic institutions.</p>
+</div>
+<a class="text-xs font-bold flex items-center hover:translate-x-1 transition-transform" href="#">
+                                RUN ANALYZER <span class="material-symbols-outlined ml-1 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="bg-[#e0e3e5] p-6 rounded-2xl flex flex-col justify-between h-40">
+<div>
+<span class="material-symbols-outlined mb-2 text-primary" data-icon="verified_user">verified_user</span>
+<h4 class="text-sm font-bold uppercase tracking-widest font-headline text-primary">Compliance Status</h4>
+<p class="text-xs text-secondary mt-1">Institutional policies are currently 100% compliant with FERPA standards.</p>
+</div>
+<span class="text-[10px] font-bold text-on-tertiary-fixed-variant bg-tertiary-fixed px-2 py-0.5 self-start rounded">VERIFIED DATA</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual FAB - Restricted to Dashboard/Settings -->
+<button class="fixed bottom-10 right-10 h-16 w-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 transition-transform group z-50">
+<span class="material-symbols-outlined text-2xl group-hover:rotate-90 transition-transform" data-icon="add">add</span>
+</button>
+</body></html>

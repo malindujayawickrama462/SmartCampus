@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Operations Hub | Smart Campus Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        h1, h2, h3, .font-headline {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary": "#000a1e",
+                        "primary-fixed-dim": "#aec7f6",
+                        "surface-tint": "#465f88",
+                        "primary-fixed": "#d6e3ff",
+                        "on-error": "#ffffff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#009c6b",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#515f74",
+                        "surface-container-highest": "#e0e3e5",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#001b3d",
+                        "inverse-primary": "#aec7f6",
+                        "primary-container": "#002147",
+                        "on-secondary-container": "#57657a",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "secondary-container": "#d5e3fc",
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-container": "#708ab5",
+                        "on-background": "#191c1e",
+                        "on-surface-variant": "#44474e",
+                        "tertiary-container": "#002718",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "secondary-fixed": "#d5e3fc",
+                        "tertiary-fixed": "#6ffbbe",
+                        "on-tertiary-fixed": "#002113",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#2d476f",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "surface-variant": "#e0e3e5",
+                        "outline": "#74777f",
+                        "background": "#f7f9fb",
+                        "surface": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "tertiary": "#000d06",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-surface": "#2d3133",
+                        "on-error-container": "#93000a"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Shell -->
+<nav class="bg-[#000a1e] backdrop-blur-md bg-opacity-95 h-screen w-64 fixed left-0 top-0 flex flex-col py-8 z-50">
+<div class="px-6 mb-10">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-tertiary-fixed flex items-center justify-center rounded-lg">
+<span class="material-symbols-outlined text-primary font-bold">account_balance</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-white leading-tight">Operations Hub</h1>
+<p class="text-[10px] text-tertiary-fixed font-semibold tracking-widest uppercase">Academic Monolith</p>
+</div>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<!-- Active State: Dashboard -->
+<a class="flex items-center px-6 py-3 border-l-4 border-[#6ffbbe] bg-white/10 text-white font-semibold transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-label font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="menu_book">menu_book</span>
+<span class="text-sm font-label font-semibold">Catalogue</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="event_available">event_available</span>
+<span class="text-sm font-label font-semibold">Bookings</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="report_problem">report_problem</span>
+<span class="text-sm font-label font-semibold">Incidents</span>
+</a>
+<a class="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="text-sm font-label font-semibold">Admin</span>
+</a>
+</div>
+<div class="mt-auto px-6 space-y-1">
+<a class="flex items-center py-2 text-[#515f74] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="help_outline">help_outline</span>
+<span class="text-sm font-label font-semibold">Support</span>
+</a>
+<a class="flex items-center py-2 text-[#515f74] hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined mr-3" data-icon="settings">settings</span>
+<span class="text-sm font-label font-semibold">Settings</span>
+</a>
+<div class="mt-6 pt-6 border-t border-white/10">
+<button class="w-full py-3 bg-gradient-to-b from-primary to-primary-container text-tertiary-fixed text-xs font-bold rounded-xl flex items-center justify-center gap-2 hover:brightness-110 transition-all">
+<span class="material-symbols-outlined text-sm">bolt</span>
+                    Quick Action
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content Shell -->
+<main class="ml-64 min-h-screen">
+<!-- TopAppBar -->
+<header class="h-20 bg-surface dark:bg-[#000a1e] flex justify-between items-center w-full pl-8 pr-16 sticky top-0 z-40">
+<div class="flex flex-col">
+<h2 class="text-2xl font-black text-primary dark:text-white font-headline leading-none">Dashboard</h2>
+<p class="text-xs text-secondary font-medium mt-1">Operational status for Monday, 24 May 2024</p>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-lg">search</span>
+<input class="bg-surface-container-high border-none rounded-full pl-10 pr-4 py-2 text-sm w-64 focus:ring-2 focus:ring-surface-tint transition-all" placeholder="Search facilities, tickets..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:bg-surface-container-low dark:hover:bg-[#002147] rounded-full p-2 transition-transform hover:scale-110">
+<span class="material-symbols-outlined text-primary dark:text-white" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:bg-surface-container-low dark:hover:bg-[#002147] rounded-full p-2 transition-transform hover:scale-110">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant/20" data-alt="professional portrait of a university administrator in a modern office setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAOenPGYQAdvvxW5wJG7jryWRiGOQsimcmZHAKZSxIc-lz4zJXXfqT0i9SOs9WSsoiqgUUbXGYhFg7Zm8O7jN2DEzN3A0oOxKhYGjWaHkQ2Apw9UoptMTYVmMfUffowP6KSQSfFBRroSEHIs2vR-wHxXPzWUYQrQJonZhebSsZhbCxWgd7OziAcXgTsEMW9xIPTrhNNrbJK3_kg6D5TwRrHwRLEH3Fgh-DNrvz-kSZ5q4w1J7cCRD9Z6Tjsj-3-NwgbH05IYokQFpU"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Page Canvas -->
+<div class="p-14 space-y-8">
+<!-- Metric Slab Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-primary shadow-sm hover:translate-y-[-2px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary bg-primary-container/10 p-2 rounded-lg">event_available</span>
+<span class="text-[10px] font-bold text-on-tertiary-fixed-variant bg-tertiary-fixed/30 px-2 py-1 rounded-full">+12% vs LY</span>
+</div>
+<h3 class="text-secondary text-xs font-bold tracking-wider uppercase">Total Active Bookings</h3>
+<p class="text-4xl font-headline font-extrabold text-primary mt-1">1,284</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-error shadow-sm hover:translate-y-[-2px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error bg-error-container/20 p-2 rounded-lg">engineering</span>
+<span class="text-[10px] font-bold text-on-error-container bg-error-container px-2 py-1 rounded-full">Priority 4</span>
+</div>
+<h3 class="text-secondary text-xs font-bold tracking-wider uppercase">Pending Tickets</h3>
+<p class="text-4xl font-headline font-extrabold text-primary mt-1">42</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border-l-4 border-tertiary-fixed-dim shadow-sm hover:translate-y-[-2px] transition-all">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant bg-tertiary-fixed/20 p-2 rounded-lg">inventory_2</span>
+<span class="text-[10px] font-bold text-secondary bg-surface-container-high px-2 py-1 rounded-full">Optimal</span>
+</div>
+<h3 class="text-secondary text-xs font-bold tracking-wider uppercase">Resource Utilization</h3>
+<p class="text-4xl font-headline font-extrabold text-primary mt-1">88.5%</p>
+</div>
+</div>
+<!-- Bento Layout Main Sections -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Main Activity Panel (Today's Facility Usage) -->
+<div class="col-span-8 space-y-8">
+<section class="bg-surface-container-low rounded-xl overflow-hidden p-8">
+<div class="flex justify-between items-center mb-8">
+<h2 class="text-xl font-headline font-extrabold text-primary">Facility Schedule Today</h2>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-surface-container-lowest text-primary text-xs font-bold rounded-lg border border-outline-variant/10">Full View</button>
+<button class="px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg">+ Schedule</button>
+</div>
+</div>
+<!-- Calendar Preview Slab -->
+<div class="space-y-4">
+<div class="flex gap-6 items-center bg-surface-container-lowest p-4 rounded-xl">
+<div class="w-16 text-center border-r border-outline-variant/20 pr-6">
+<p class="text-xs font-bold text-secondary">09:00</p>
+<p class="text-[10px] text-outline">AM</p>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-primary">Great Hall - Graduation Rehearsal</h4>
+<p class="text-xs text-secondary">Managed by: Office of the Registrar</p>
+</div>
+<div class="flex -space-x-2">
+<img class="w-8 h-8 rounded-full ring-2 ring-surface-container-lowest" data-alt="close up avatar of a professional team member" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBAFny47K5bsMJ5cMtUwwfhV1VrPJggUCVAOmKI6XelPeKKV9p8GHUfKI5pCi9S3hb-stVltASwKVg3Fl4jnZcrb_LFyzyhslEDuwrsn8rsxVM6_j0H8U3EGrIlWVHWk3_oGQGFomfiniv5HdZqEgnSVCGMha-57Lyjft3nlVjpbyugh88lJxX0w3aP7VmUr4Dmw-p-oV2Du8gZgJ5riFk1dnB8FvRFWjeW6noz3lzARFZGzOFo4fNMIKFesHyBBkpp4ZOxLo302W_"/>
+<img class="w-8 h-8 rounded-full ring-2 ring-surface-container-lowest" data-alt="close up avatar of a professional team member" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7lkrOnNRHGgfw8TmcPlVzT-Tn4Acbzw8rlMAFwJNyStPzCkT16L8b2u93mDAX3s-JjJPwWz4DHwmVfg6TFdPS_GCSfcSD7_okW4TPmCcqHViVuEIAnMblSl1_ZyMJPb-VM_V4qlNTc69-0WqgjPIKiNCjFu02--PwWkHI-PyRZFjNAiStJuncuIQZtfrxi4-74MUDyfwZlUhv-r51afZhF0n0glGOzzbvIJFQpST7pGM7oPEuZKhNf_T17y03Bb4ihpKJ8otxeXCe"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-[10px] font-bold flex items-center justify-center ring-2 ring-surface-container-lowest">+4</div>
+</div>
+</div>
+<div class="flex gap-6 items-center bg-surface-container-lowest p-4 rounded-xl">
+<div class="w-16 text-center border-r border-outline-variant/20 pr-6">
+<p class="text-xs font-bold text-secondary">11:30</p>
+<p class="text-[10px] text-outline">AM</p>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-primary">Seminar Room 4C - Faculty Council</h4>
+<p class="text-xs text-secondary">Managed by: Dept. of Engineering</p>
+</div>
+<span class="bg-tertiary-fixed/30 text-on-tertiary-fixed-variant text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">In Progress</span>
+</div>
+<div class="flex gap-6 items-center bg-surface-container-lowest p-4 rounded-xl opacity-60">
+<div class="w-16 text-center border-r border-outline-variant/20 pr-6">
+<p class="text-xs font-bold text-secondary">02:00</p>
+<p class="text-[10px] text-outline">PM</p>
+</div>
+<div class="flex-1">
+<h4 class="text-sm font-bold text-primary">Outdoor Plaza - Career Fair Set-up</h4>
+<p class="text-xs text-secondary">Managed by: Student Services</p>
+</div>
+<span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Pending</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Side Widgets -->
+<div class="col-span-4 space-y-8">
+<!-- Quick Actions -->
+<section class="bg-primary p-8 rounded-xl text-white shadow-2xl">
+<h2 class="text-lg font-headline font-bold mb-6">Quick Actions</h2>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex flex-col items-center justify-center gap-3 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition-all aspect-square border border-white/10">
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl">add_box</span>
+<span class="text-xs font-semibold">New Booking</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition-all aspect-square border border-white/10">
+<span class="material-symbols-outlined text-error-container text-3xl">emergency</span>
+<span class="text-xs font-semibold">Report Incident</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition-all aspect-square border border-white/10">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl">task</span>
+<span class="text-xs font-semibold">Work Order</span>
+</button>
+<button class="flex flex-col items-center justify-center gap-3 p-4 bg-white/5 hover:bg-white/10 rounded-xl transition-all aspect-square border border-white/10">
+<span class="material-symbols-outlined text-outline-variant text-3xl">assessment</span>
+<span class="text-xs font-semibold">Gen Report</span>
+</button>
+</div>
+</section>
+<!-- Notifications Panel -->
+<section class="bg-surface-container-highest p-8 rounded-xl">
+<div class="flex justify-between items-center mb-6">
+<h2 class="text-lg font-headline font-bold text-primary">Recent Alerts</h2>
+<span class="w-2 h-2 bg-error rounded-full animate-pulse"></span>
+</div>
+<div class="space-y-4">
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-lg">
+<div class="w-1 h-8 bg-tertiary-fixed rounded-full self-center"></div>
+<div>
+<h5 class="text-xs font-bold text-primary">Booking Approved</h5>
+<p class="text-[11px] text-secondary leading-relaxed">Lecture Hall A booking for Module D-404 has been confirmed by Admin.</p>
+<span class="text-[9px] font-bold text-outline uppercase mt-1 block">2 mins ago</span>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-lg">
+<div class="w-1 h-8 bg-error rounded-full self-center"></div>
+<div>
+<h5 class="text-xs font-bold text-primary">Ticket Status Change</h5>
+<p class="text-[11px] text-secondary leading-relaxed">Ticket #8412 (HVAC Repair) escalated to Emergency status.</p>
+<span class="text-[9px] font-bold text-outline uppercase mt-1 block">15 mins ago</span>
+</div>
+</div>
+<div class="flex gap-4 p-4 bg-surface-container-lowest rounded-lg">
+<div class="w-1 h-8 bg-secondary rounded-full self-center"></div>
+<div>
+<h5 class="text-xs font-bold text-primary">System Notice</h5>
+<p class="text-[11px] text-secondary leading-relaxed">Nightly database synchronization completed successfully.</p>
+<span class="text-[9px] font-bold text-outline uppercase mt-1 block">1 hour ago</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Operational Map/Status Slab (Asymmetric Layout Example) -->
+<div class="bg-surface-container-low rounded-xl p-8 grid grid-cols-3 gap-8">
+<div class="col-span-2">
+<h2 class="text-xl font-headline font-extrabold text-primary mb-4">Campus Resource Heatmap</h2>
+<div class="h-64 bg-surface-container-highest rounded-xl flex items-center justify-center relative overflow-hidden group">
+<img class="w-full h-full object-cover grayscale opacity-20 transition-all duration-700 group-hover:scale-105" data-alt="modern architectural site plan of a university campus with stylized geometric buildings and green spaces" data-location="University Campus" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAo0E-cdRD8-e1skrQZO02JEjnL53J1oaDjo5psoCq0hUfYkComHbI3RV_B8YqIVDu3qqTD7TAlWnNynIRPQoxrSsmqpxb5ue5lHtyhOA378j3JaD2YaXJoMpGNn8de2IkdoMuMnUETOauWdHWkVNDLneZDUTNGNwnilO5Yap2B_gdXkfrs48pC_jtWhm8-ywCu3VLZs08K6BPvj5KTGCWtYWF5ljcszNsEQJBV1PHbcHV1XAw766XMuRzyrlAX4BtKpAvSywAcueQ3"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-primary text-4xl">map</span>
+<p class="text-xs font-bold text-primary uppercase tracking-widest">Live Feed Disabled</p>
+</div>
+</div>
+<!-- UI Overlays on Map -->
+<div class="absolute bottom-4 left-4 flex gap-2">
+<span class="bg-white/80 backdrop-blur px-3 py-1 rounded text-[10px] font-bold text-primary shadow-sm flex items-center gap-2"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span> West Wing</span>
+<span class="bg-white/80 backdrop-blur px-3 py-1 rounded text-[10px] font-bold text-primary shadow-sm flex items-center gap-2"><span class="w-2 h-2 bg-amber-500 rounded-full"></span> Library</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-between">
+<div>
+<h2 class="text-xl font-headline font-extrabold text-primary mb-2">Node Efficiency</h2>
+<p class="text-xs text-secondary mb-6">Aggregate sensor data from academic blocks.</p>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-[10px] font-bold uppercase mb-2">
+<span class="text-primary">Energy Grid</span>
+<span class="text-primary">92%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 92%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-bold uppercase mb-2">
+<span class="text-primary">Water Supply</span>
+<span class="text-primary">76%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary" style="width: 76%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-bold uppercase mb-2">
+<span class="text-primary">Bandwidth</span>
+<span class="text-primary">45%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 45%"></div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full py-4 bg-surface-container-highest hover:bg-surface-container-high transition-colors text-primary text-xs font-black uppercase tracking-tighter rounded-xl">View Detailed Telemetry</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
