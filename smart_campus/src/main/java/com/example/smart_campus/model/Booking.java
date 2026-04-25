@@ -1,6 +1,7 @@
 package com.example.smart_campus.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -21,18 +22,24 @@ public class Booking {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @NotNull(message = "Booking date is required")
     @Column(nullable = false)
     private LocalDate bookingDate;
 
+    @NotNull(message = "Start time is required")
     @Column(nullable = false)
     private LocalTime startTime;
 
+    @NotNull(message = "End time is required")
     @Column(nullable = false)
     private LocalTime endTime;
 
+    @NotBlank(message = "Purpose is required")
+    @Size(min = 3, max = 500, message = "Purpose must be between 3 and 500 characters")
     @Column(nullable = false)
     private String purpose;
 
+    @Min(value = 1, message = "Attendees must be at least 1")
     private Integer attendees;
 
     @Enumerated(EnumType.STRING)

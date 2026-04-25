@@ -22,6 +22,7 @@ export default function Bookings() {
     purpose: '',
     attendees: 1,
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -71,16 +72,26 @@ export default function Bookings() {
   };
 
   const validateForm = () => {
-    const errors = [];
+    const errors = {};
     
-    if (!form.resourceId) errors.push('Resource is required');
-    if (!form.bookingDate) errors.push('Date is required');
-    if (form.bookingDate < today) errors.push('Cannot book in the past');
-    if (!form.startTime) errors.push('Start time is required');
-    if (!form.endTime) errors.push('End time is required');
-    if (form.startTime >= form.endTime) errors.push('End time must be after start time');
-    if (!form.purpose || form.purpose.trim().length === 0) errors.push('Purpose is required');
-    if (Number(form.attendees) < 1) errors.push('Attendees must be at least 1');
+    if (!form.resourceId) errors.resourceId = 'Resource is required';
+    if (!form.bookingDate) {
+      errors.bookingDate = 'Date is required';
+    } else if (form.bookingDate < today) {
+      errors.bookingDate = 'Cannot book in the past';
+    }
+    if (!form.startTime) errors.startTime = 'Start time is required';
+    if (!form.endTime) {
+      errors.endTime = 'End time is required';
+    } else if (form.startTime && form.startTime >= form.endTime) {
+      errors.endTime = 'End time must be after start time';
+    }
+    if (!form.purpose || form.purpose.trim().length === 0) {
+      errors.purpose = 'Purpose is required';
+    } else if (form.purpose.trim().length < 3) {
+      errors.purpose = 'Purpose must be at least 3 characters';
+    }
+    if (Number(form.attendees) < 1) errors.attendees = 'Attendees must be at least 1';
 
     return errors;
   };
@@ -117,11 +128,9 @@ export default function Bookings() {
   const submitBooking = async (e) => {
     e.preventDefault();
     
-    const errors = validateForm();
-    if (errors.length > 0) {
-      errors.forEach(err => toast.error(err));
-      return;
-    }
+    const validationErrors = validateForm();
+    setFormErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
 
     if (conflicts.length > 0) {
       toast.error('Resource has conflicts during this time. Please select a different time.');
@@ -148,10 +157,16 @@ export default function Bookings() {
         purpose: '',
         attendees: 1,
       });
+      setFormErrors({});
       setConflicts([]);
       fetchBookings();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to create booking');
+      const data = err.response?.data;
+      if (data?.fieldErrors) {
+        setFormErrors(data.fieldErrors);
+      } else {
+        toast.error(data?.message || 'Failed to create booking');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -201,14 +216,15 @@ export default function Bookings() {
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500">Resource & Purpose</label>
                 <select
-                  className="mt-1 w-full rounded-xl border border-gray-200 p-3 text-sm"
+                  className={`mt-1 w-full rounded-xl border p-3 text-sm ${formErrors.resourceId ? 'border-red-400' : 'border-gray-200'}`}
                   value={form.resourceId}
-                  onChange={(e) => setForm((prev) => ({ ...prev, resourceId: e.target.value }))}
+                  onChange={(e) => { setForm((prev) => ({ ...prev, resourceId: e.target.value })); setFormErrors(prev => ({...prev, resourceId: ''})); }}
                 >
                   {resources.map((res) => (
                     <option key={res.id} value={res.id}>{res.name}</option>
                   ))}
                 </select>
+                {formErrors.resourceId && <p className="mt-1 text-xs text-red-600">{formErrors.resourceId}</p>}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -216,26 +232,33 @@ export default function Bookings() {
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500">Date</label>
                   <input
                     type="date"
-                    className="mt-1 w-full rounded-xl border border-gray-200 p-3 text-sm"
+                    className={`mt-1 w-full rounded-xl border p-3 text-sm ${formErrors.bookingDate ? 'border-red-400' : 'border-gray-200'}`}
                     value={form.bookingDate}
-                    onChange={(e) => setForm((prev) => ({ ...prev, bookingDate: e.target.value }))}
+                    onChange={(e) => { setForm((prev) => ({ ...prev, bookingDate: e.target.value })); setFormErrors(prev => ({...prev, bookingDate: ''})); }}
                   />
+                  {formErrors.bookingDate && <p className="mt-1 text-xs text-red-600">{formErrors.bookingDate}</p>}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500">Time</label>
                   <div className="grid grid-cols-2 gap-2">
-                    <input
-                      type="time"
-                      className="mt-1 w-full rounded-xl border border-gray-200 p-3 text-sm"
-                      value={form.startTime}
-                      onChange={(e) => setForm((prev) => ({ ...prev, startTime: e.target.value }))}
-                    />
-                    <input
-                      type="time"
-                      className="mt-1 w-full rounded-xl border border-gray-200 p-3 text-sm"
-                      value={form.endTime}
-                      onChange={(e) => setForm((prev) => ({ ...prev, endTime: e.target.value }))}
-                    />
+                    <div>
+                      <input
+                        type="time"
+                        className={`mt-1 w-full rounded-xl border p-3 text-sm ${formErrors.startTime ? 'border-red-400' : 'border-gray-200'}`}
+                        value={form.startTime}
+                        onChange={(e) => { setForm((prev) => ({ ...prev, startTime: e.target.value })); setFormErrors(prev => ({...prev, startTime: ''})); }}
+                      />
+                      {formErrors.startTime && <p className="mt-1 text-xs text-red-600">{formErrors.startTime}</p>}
+                    </div>
+                    <div>
+                      <input
+                        type="time"
+                        className={`mt-1 w-full rounded-xl border p-3 text-sm ${formErrors.endTime ? 'border-red-400' : 'border-gray-200'}`}
+                        value={form.endTime}
+                        onChange={(e) => { setForm((prev) => ({ ...prev, endTime: e.target.value })); setFormErrors(prev => ({...prev, endTime: ''})); }}
+                      />
+                      {formErrors.endTime && <p className="mt-1 text-xs text-red-600">{formErrors.endTime}</p>}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -245,20 +268,23 @@ export default function Bookings() {
                 <input
                   type="number"
                   min="1"
-                  className="mt-1 w-full rounded-xl border border-gray-200 p-3 text-sm"
+                  className={`mt-1 w-full rounded-xl border p-3 text-sm ${formErrors.attendees ? 'border-red-400' : 'border-gray-200'}`}
                   value={form.attendees}
-                  onChange={(e) => setForm((prev) => ({ ...prev, attendees: e.target.value }))}
+                  onChange={(e) => { setForm((prev) => ({ ...prev, attendees: e.target.value })); setFormErrors(prev => ({...prev, attendees: ''})); }}
                 />
+                {formErrors.attendees && <p className="mt-1 text-xs text-red-600">{formErrors.attendees}</p>}
               </div>
 
               <div>
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500">Purpose</label>
                 <input
                   type="text"
-                  className="mt-1 w-full rounded-xl border border-gray-200 p-3 text-sm"
+                  className={`mt-1 w-full rounded-xl border p-3 text-sm ${formErrors.purpose ? 'border-red-400' : 'border-gray-200'}`}
                   value={form.purpose}
-                  onChange={(e) => setForm((prev) => ({ ...prev, purpose: e.target.value }))}
+                  onChange={(e) => { setForm((prev) => ({ ...prev, purpose: e.target.value })); setFormErrors(prev => ({...prev, purpose: ''})); }}
+                  placeholder="Minimum 3 characters"
                 />
+                {formErrors.purpose && <p className="mt-1 text-xs text-red-600">{formErrors.purpose}</p>}
               </div>
 
               <button

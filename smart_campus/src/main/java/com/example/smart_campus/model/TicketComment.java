@@ -1,6 +1,7 @@
 package com.example.smart_campus.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,6 +20,8 @@ public class TicketComment {
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
+    @NotBlank(message = "Comment content is required")
+    @Size(min = 1, max = 1000, message = "Comment must be between 1 and 1000 characters")
     @Column(nullable = false, length = 1000)
     private String content;
 

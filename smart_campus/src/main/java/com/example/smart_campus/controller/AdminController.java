@@ -29,9 +29,18 @@ public class AdminController {
 
     // PUT /api/admin/users/{id}/role - Change user role
     @PutMapping("/users/{id}/role")
-    public ResponseEntity<User> updateRole(@PathVariable Long id,
+    public ResponseEntity<?> updateRole(@PathVariable Long id,
                                             @RequestBody Map<String, String> body) {
-        Role role = Role.valueOf(body.get("role"));
-        return ResponseEntity.ok(userService.updateRole(id, role));
+        String roleStr = body.get("role");
+        if (roleStr == null || roleStr.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Role is required"));
+        }
+        try {
+            Role role = Role.valueOf(roleStr.trim());
+            return ResponseEntity.ok(userService.updateRole(id, role));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(
+                Map.of("error", "Invalid role. Must be one of: USER, ADMIN, TECHNICIAN"));
+        }
     }
 }

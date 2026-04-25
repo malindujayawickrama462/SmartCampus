@@ -2,6 +2,7 @@ package com.example.smart_campus.controller;
 
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.service.BookingService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,8 +59,22 @@ public class BookingController {
 
     // POST /api/bookings - Create a booking request
     @PostMapping
-    public ResponseEntity<Booking> create(@RequestBody Booking booking,
+    public ResponseEntity<?> create(@Valid @RequestBody Booking booking,
                                           @AuthenticationPrincipal User user) {
+        // Manual validation: endTime must be after startTime
+        if (booking.getStartTime() != null && booking.getEndTime() != null
+                && !booking.getEndTime().isAfter(booking.getStartTime())) {
+            return ResponseEntity.badRequest().body(
+                java.util.Map.of("error", "Validation failed",
+                    "fieldErrors", java.util.Map.of("endTime", "End time must be after start time")));
+        }
+        // Manual validation: bookingDate must not be in the past
+        if (booking.getBookingDate() != null
+                && booking.getBookingDate().isBefore(java.time.LocalDate.now())) {
+            return ResponseEntity.badRequest().body(
+                java.util.Map.of("error", "Validation failed",
+                    "fieldErrors", java.util.Map.of("bookingDate", "Booking date cannot be in the past")));
+        }
         booking.setUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.createBooking(booking));
     }

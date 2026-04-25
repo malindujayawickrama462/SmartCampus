@@ -47,8 +47,28 @@ public class AuthController {
         String password = body.get("password");
         String name = body.get("name");
 
-        if (email == null || password == null || name == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "name, email, and password are required"));
+        // Validate required fields
+        Map<String, String> errors = new java.util.LinkedHashMap<>();
+        if (name == null || name.trim().isEmpty()) {
+            errors.put("name", "Name is required");
+        } else if (name.trim().length() < 2) {
+            errors.put("name", "Name must be at least 2 characters");
+        }
+
+        if (email == null || email.trim().isEmpty()) {
+            errors.put("email", "Email is required");
+        } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            errors.put("email", "Please provide a valid email address");
+        }
+
+        if (password == null || password.isEmpty()) {
+            errors.put("password", "Password is required");
+        } else if (password.length() < 6) {
+            errors.put("password", "Password must be at least 6 characters");
+        }
+
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Validation failed", "fieldErrors", errors));
         }
 
         if (userRepository.existsByEmail(email)) {
@@ -56,8 +76,8 @@ public class AuthController {
         }
 
         User user = User.builder()
-                .email(email)
-                .name(name)
+                .email(email.trim())
+                .name(name.trim())
                 .password(passwordEncoder.encode(password))
                 .role(Role.USER)
                 .provider("local")
@@ -73,8 +93,20 @@ public class AuthController {
         String email = body.get("email");
         String password = body.get("password");
 
-        if (email == null || password == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "email and password are required"));
+        // Validate required fields
+        Map<String, String> errors = new java.util.LinkedHashMap<>();
+        if (email == null || email.trim().isEmpty()) {
+            errors.put("email", "Email is required");
+        } else if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            errors.put("email", "Please provide a valid email address");
+        }
+
+        if (password == null || password.isEmpty()) {
+            errors.put("password", "Password is required");
+        }
+
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Validation failed", "fieldErrors", errors));
         }
 
         User user = userRepository.findByEmail(email).orElse(null);

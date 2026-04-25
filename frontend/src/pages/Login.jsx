@@ -8,6 +8,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { user, loginWithToken } = useAuth();
   const [form, setForm] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -26,12 +27,24 @@ export default function Login() {
     }
   };
 
+  const validate = () => {
+    const newErrors = {};
+    if (!form.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(form.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    if (!form.password) {
+      newErrors.password = 'Password is required';
+    }
+    return newErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password) {
-      toast.error('Email and password are required');
-      return;
-    }
+    const validationErrors = validate();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
 
     try {
       setSubmitting(true);
@@ -39,7 +52,12 @@ export default function Login() {
       await loginWithToken(res.data.token);
       navigate('/');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Login failed');
+      const data = error.response?.data;
+      if (data?.fieldErrors) {
+        setErrors(data.fieldErrors);
+      } else {
+        toast.error(data?.error || 'Login failed');
+      }
     } finally {
       setSubmitting(false);
     }
@@ -53,26 +71,26 @@ export default function Login() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 border border-gray-100 space-y-4">
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div>
               <label className="block text-sm font-medium text-gray-700">Email</label>
               <input
                 type="email"
                 value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200"
-                required
+                onChange={(e) => { setForm({ ...form, email: e.target.value }); setErrors(prev => ({...prev, email: ''})); }}
+                className={`mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring ${errors.email ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'}`}
               />
+              {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">Password</label>
               <input
                 type="password"
                 value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200"
-                required
+                onChange={(e) => { setForm({ ...form, password: e.target.value }); setErrors(prev => ({...prev, password: ''})); }}
+                className={`mt-1 block w-full rounded-md border px-3 py-2 focus:outline-none focus:ring ${errors.password ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-gray-300 focus:border-blue-500 focus:ring-blue-200'}`}
               />
+              {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
             </div>
             <button
               type="submit"
@@ -91,7 +109,7 @@ export default function Login() {
           </button>
 
           <p className="text-sm text-gray-500 text-center">
-            Don’t have an account? <Link to="/register" className="text-blue-600 hover:underline">Register</Link>
+            Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Register</Link>
           </p>
         </div>
       </div>
