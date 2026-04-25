@@ -18,11 +18,11 @@ public class NotificationService {
     }
 
     public List<Notification> getMyNotifications(Long userId) {
-        return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        return notificationRepository.findByUser_IdOrderByCreatedAtDesc(userId);
     }
 
     public long getUnreadCount(Long userId) {
-        return notificationRepository.countByUserIdAndIsReadFalse(userId);
+        return notificationRepository.countByUser_IdAndReadFalse(userId);
     }
 
     @Transactional
@@ -32,7 +32,7 @@ public class NotificationService {
                 .type(type)
                 .message(message)
                 .referenceId(referenceId)
-                .isRead(false)
+                .read(false)
                 .build();
         notificationRepository.save(notification);
     }
@@ -49,7 +49,7 @@ public class NotificationService {
 
     @Transactional
     public void markAllAsRead(Long userId) {
-        List<Notification> unread = notificationRepository.findByUserIdAndIsReadFalse(userId);
+        List<Notification> unread = notificationRepository.findByUser_IdAndReadFalse(userId);
         unread.forEach(n -> n.setRead(true));
         notificationRepository.saveAll(unread);
     }

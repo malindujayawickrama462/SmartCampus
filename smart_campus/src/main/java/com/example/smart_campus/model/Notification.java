@@ -11,8 +11,9 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @Column(nullable = false)
@@ -22,7 +23,7 @@ public class Notification {
     private String message;
 
     @Column(nullable = false)
-    private boolean isRead;
+    private boolean read;
 
     private Long referenceId; // bookingId or ticketId
 
@@ -31,12 +32,12 @@ public class Notification {
 
     public Notification() {}
 
-    public Notification(Long id, User user, String type, String message, boolean isRead, Long referenceId, LocalDateTime createdAt) {
+    public Notification(Long id, User user, String type, String message, boolean read, Long referenceId, LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.type = type;
         this.message = message;
-        this.isRead = isRead;
+        this.read = read;
         this.referenceId = referenceId;
         this.createdAt = createdAt;
     }
@@ -44,7 +45,7 @@ public class Notification {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-        isRead = false;
+        read = false;
     }
 
     // Getters and Setters
@@ -56,8 +57,8 @@ public class Notification {
     public void setType(String type) { this.type = type; }
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
-    public boolean isRead() { return isRead; }
-    public void setRead(boolean read) { isRead = read; }
+    public boolean isRead() { return read; }
+    public void setRead(boolean read) { this.read = read; }
     public Long getReferenceId() { return referenceId; }
     public void setReferenceId(Long referenceId) { this.referenceId = referenceId; }
     public LocalDateTime getCreatedAt() { return createdAt; }
@@ -73,7 +74,7 @@ public class Notification {
         private User user;
         private String type;
         private String message;
-        private boolean isRead;
+        private boolean read;
         private Long referenceId;
         private LocalDateTime createdAt;
 
@@ -81,12 +82,12 @@ public class Notification {
         public NotificationBuilder user(User user) { this.user = user; return this; }
         public NotificationBuilder type(String type) { this.type = type; return this; }
         public NotificationBuilder message(String message) { this.message = message; return this; }
-        public NotificationBuilder isRead(boolean isRead) { this.isRead = isRead; return this; }
+        public NotificationBuilder read(boolean read) { this.read = read; return this; }
         public NotificationBuilder referenceId(Long referenceId) { this.referenceId = referenceId; return this; }
         public NotificationBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
 
         public Notification build() {
-            return new Notification(id, user, type, message, isRead, referenceId, createdAt);
+            return new Notification(id, user, type, message, read, referenceId, createdAt);
         }
     }
 }
