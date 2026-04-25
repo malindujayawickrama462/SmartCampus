@@ -58,7 +58,7 @@ public class BookingController {
 
     // POST /api/bookings - Create a booking request
     @PostMapping
-    public ResponseEntity<Booking> create(@RequestBody Booking booking,
+    public ResponseEntity<Booking> create(@jakarta.validation.Valid @RequestBody Booking booking,
                                           @AuthenticationPrincipal User user) {
         booking.setUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.createBooking(booking));
