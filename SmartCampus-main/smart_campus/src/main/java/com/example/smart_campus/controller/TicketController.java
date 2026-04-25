@@ -38,9 +38,9 @@ public class TicketController {
         return ResponseEntity.ok(tickets);
     }
 
-    // GET /api/tickets/assigned - Get tickets assigned to current technician
+    // GET /api/tickets/assigned - Get tickets assigned to current technician/admin
     @GetMapping("/assigned")
-    @PreAuthorize("hasRole('TECHNICIAN')")
+    @PreAuthorize("hasAnyRole('TECHNICIAN', 'ADMIN')")
     public ResponseEntity<List<Ticket>> getAssignedTickets(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(ticketService.getAssignedTickets(user.getId()));
     }

@@ -554,13 +554,13 @@ export default function Tickets() {
                     {selectedTicket.images.map((img, idx) => (
                       <a
                         key={idx}
-                        href={`/uploads/${img.filePath.split('/').pop()}`}
+                        href={`http://localhost:8080/uploads/${img.filePath.split('/').pop()}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="border border-[#e4e9f2] rounded-lg overflow-hidden hover:shadow-md transition"
                       >
                         <img
-                          src={`/uploads/${img.filePath.split('/').pop()}`}
+                          src={`http://localhost:8080/uploads/${img.filePath.split('/').pop()}`}
                           alt={`Evidence ${idx + 1}`}
                           className="w-full h-32 object-cover"
                         />

@@ -9,7 +9,7 @@ export default function AdminBookings() {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(null);
   const [filters, setFilters] = useState({
-    status: 'PENDING',
+    status: '', // Show all bookings by default
     resourceId: '',
     searchQuery: '',
   });
@@ -65,6 +65,13 @@ export default function AdminBookings() {
           b.purpose?.toLowerCase().includes(query)
         );
       }
+
+      // Sort by date and time (newest first)
+      filtered.sort((a, b) => {
+        const dateA = new Date(`${a.bookingDate}T${a.startTime}`);
+        const dateB = new Date(`${b.bookingDate}T${b.startTime}`);
+        return dateB - dateA;
+      });
 
       setBookings(filtered);
     } catch (err) {
