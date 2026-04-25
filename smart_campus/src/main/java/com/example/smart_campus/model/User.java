@@ -1,5 +1,6 @@
 package com.example.smart_campus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @Column
     private String password;
 
