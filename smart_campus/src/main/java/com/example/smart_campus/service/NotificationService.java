@@ -3,7 +3,6 @@ package com.example.smart_campus.service;
 import com.example.smart_campus.model.Notification;
 import com.example.smart_campus.model.User;
 import com.example.smart_campus.repository.NotificationRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
