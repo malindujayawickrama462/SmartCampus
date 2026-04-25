@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Home, Calendar, LayoutGrid, AlertCircle, ShieldCheck, ClipboardList, Bell, User } from 'lucide-react';
+import { Home, Calendar, LayoutGrid, AlertCircle, ShieldCheck, ClipboardList, Bell, User, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
@@ -141,6 +141,10 @@ export default function Navbar() {
             <Link to="/admin/resources" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
               <ShieldCheck className="mr-3 w-4 h-4" />
               <span className="font-semibold text-sm">Manage Resources</span>
+            </Link>
+            <Link to="/admin/users" className="flex items-center px-6 py-3 text-[#515f74] hover:text-white hover:bg-white/5 rounded-lg transition">
+              <Users className="mr-3 w-4 h-4" />
+              <span className="font-semibold text-sm">Manage Users</span>
             </Link>
           </>
         )}
