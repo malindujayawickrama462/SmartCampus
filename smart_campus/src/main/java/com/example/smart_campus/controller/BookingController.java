@@ -2,7 +2,6 @@ package com.example.smart_campus.controller;
 
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.service.BookingService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,10 +13,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/bookings")
-@RequiredArgsConstructor
 public class BookingController {
 
     private final BookingService bookingService;
+
+    public BookingController(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
 
     // GET /api/bookings/my - Get current user's bookings
     @GetMapping("/my")

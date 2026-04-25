@@ -4,7 +4,6 @@ import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.ResourceRepository;
 import com.example.smart_campus.service.TicketService;
 import com.example.smart_campus.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,12 +17,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/tickets")
-@RequiredArgsConstructor
 public class TicketController {
 
     private final TicketService ticketService;
     private final UserService userService;
     private final ResourceRepository resourceRepository;
+
+    public TicketController(TicketService ticketService, 
+                            UserService userService, 
+                            ResourceRepository resourceRepository) {
+        this.ticketService = ticketService;
+        this.userService = userService;
+        this.resourceRepository = resourceRepository;
+    }
 
     // GET /api/tickets/my - Get current user's tickets
     @GetMapping("/my")

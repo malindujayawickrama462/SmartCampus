@@ -7,16 +7,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
     private final SimpMessagingTemplate messagingTemplate;
+
+    public NotificationService(NotificationRepository notificationRepository,
+                                SimpMessagingTemplate messagingTemplate) {
+        this.notificationRepository = notificationRepository;
+        this.messagingTemplate = messagingTemplate;
+    }
 
     public List<Notification> getMyNotifications(Long userId) {
         return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
@@ -37,7 +41,6 @@ public class NotificationService {
                 .build();
         notificationRepository.save(notification);
 
-        // Push real-time event to the specific user's WebSocket topic
         messagingTemplate.convertAndSend(
             "/topic/notifications/" + user.getId(),
             Map.of(

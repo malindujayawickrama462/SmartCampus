@@ -3,7 +3,6 @@ package com.example.smart_campus.controller;
 import com.example.smart_campus.model.Notification;
 import com.example.smart_campus.model.User;
 import com.example.smart_campus.service.NotificationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +12,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/notifications")
-@RequiredArgsConstructor
 public class NotificationController {
 
     private final NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     // GET /api/notifications - Get all notifications for current user
     @GetMapping

@@ -3,19 +3,25 @@ package com.example.smart_campus.service;
 import com.example.smart_campus.exception.*;
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final ResourceRepository resourceRepository;
     private final NotificationService notificationService;
+
+    public BookingService(BookingRepository bookingRepository, 
+                          ResourceRepository resourceRepository, 
+                          NotificationService notificationService) {
+        this.bookingRepository = bookingRepository;
+        this.resourceRepository = resourceRepository;
+        this.notificationService = notificationService;
+    }
 
     public Booking getById(Long id) {
         return bookingRepository.findById(id)
