@@ -4,6 +4,8 @@ import com.example.smart_campus.model.User;
 import com.example.smart_campus.model.Role;
 import com.example.smart_campus.repository.UserRepository;
 import com.example.smart_campus.exception.ResourceNotFoundException;
+import com.example.smart_campus.exception.BadRequestException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,9 +15,11 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User getById(Long id) {
@@ -40,6 +44,26 @@ public class UserService {
     public User updateRole(Long id, Role newRole) {
         User user = getById(id);
         user.setRole(newRole);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User toggleActive(Long id) {
+        User user = getById(id);
+        user.setActive(!user.isActive());
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User resetPassword(Long id, String newPassword) {
+        if (newPassword == null || newPassword.length() < 6) {
+            throw new BadRequestException("Password must be at least 6 characters");
+        }
+        User user = getById(id);
+        if (!"local".equals(user.getProvider())) {
+            throw new BadRequestException("Cannot reset password for OAuth users (provider: " + user.getProvider() + ")");
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
         return userRepository.save(user);
     }
 }

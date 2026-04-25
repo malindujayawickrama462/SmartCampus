@@ -115,6 +115,11 @@ public class AuthController {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials (user not found)"));
         }
 
+        if (!user.isActive()) {
+            System.out.println("Login Failed: Account deactivated for email: " + email);
+            return ResponseEntity.status(403).body(Map.of("error", "Your account has been deactivated. Contact an administrator."));
+        }
+
         if (!"local".equals(user.getProvider())) {
             System.out.println("Login Failed: User registered via " + user.getProvider() + " for email: " + email);
             return ResponseEntity.status(403).body(Map.of("error", "Use OAuth login for this account"));
