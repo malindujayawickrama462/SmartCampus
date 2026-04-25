@@ -57,6 +57,25 @@ export default function Tickets() {
 
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
+    
+    // Form Validation
+    if (!formData.location.trim()) {
+      toast.error('Location is required');
+      return;
+    }
+    if (!formData.category.trim()) {
+      toast.error('Category is required');
+      return;
+    }
+    if (!formData.description.trim() || formData.description.trim().length < 10) {
+      toast.error('Description must be at least 10 characters long');
+      return;
+    }
+    if (formData.contactDetails && !/^\d{10}$/.test(formData.contactDetails.trim())) {
+      toast.error('Phone number must be exactly 10 digits');
+      return;
+    }
+
     try {
       const formPayload = new FormData();
       formPayload.append('location', formData.location);
@@ -402,12 +421,15 @@ export default function Tickets() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-[#0f172a] mb-2">Contact Details</label>
+                <label className="block text-sm font-semibold text-[#0f172a] mb-2">Phone Number</label>
                 <input
-                  type="text"
+                  type="tel"
                   value={formData.contactDetails}
-                  onChange={(e) => setFormData({...formData, contactDetails: e.target.value})}
-                  placeholder="Phone or email for follow up"
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    setFormData({...formData, contactDetails: val});
+                  }}
+                  placeholder="e.g., 0712345678"
                   className="w-full px-3 py-2 border border-[#cbd5e1] rounded-lg text-sm"
                 />
               </div>
