@@ -28,6 +28,7 @@ export default function Tickets() {
   const [newComment, setNewComment] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editingCommentText, setEditingCommentText] = useState('');
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     fetchTickets();
@@ -55,8 +56,32 @@ export default function Tickets() {
     }
   };
 
+  const validateTicketForm = () => {
+    const errors = {};
+    if (!formData.location.trim()) {
+      errors.location = 'Location is required';
+    } else if (formData.location.trim().length < 2) {
+      errors.location = 'Location must be at least 2 characters';
+    }
+    if (!formData.category.trim()) {
+      errors.category = 'Category is required';
+    } else if (formData.category.trim().length < 2) {
+      errors.category = 'Category must be at least 2 characters';
+    }
+    if (!formData.description.trim()) {
+      errors.description = 'Description is required';
+    } else if (formData.description.trim().length < 10) {
+      errors.description = 'Description must be at least 10 characters';
+    }
+    return errors;
+  };
+
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validateTicketForm();
+    setFormErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
+
     try {
       const formPayload = new FormData();
       formPayload.append('location', formData.location);
@@ -85,9 +110,15 @@ export default function Tickets() {
         resourceId: '',
         images: []
       });
+      setFormErrors({});
       toast.success('Incident ticket created successfully!');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to create ticket');
+      const data = err.response?.data;
+      if (data?.fieldErrors) {
+        setFormErrors(data.fieldErrors);
+      } else {
+        toast.error(data?.message || 'Failed to create ticket');
+      }
     }
   };
 
@@ -355,36 +386,36 @@ export default function Tickets() {
                 <label className="block text-sm font-semibold text-[#0f172a] mb-2">Location *</label>
                 <input
                   type="text"
-                  required
                   value={formData.location}
-                  onChange={(e) => setFormData({...formData, location: e.target.value})}
+                  onChange={(e) => { setFormData({...formData, location: e.target.value}); setFormErrors(prev => ({...prev, location: ''})); }}
                   placeholder="e.g., Building A, Room 201"
-                  className="w-full px-3 py-2 border border-[#cbd5e1] rounded-lg text-sm"
+                  className={`w-full px-3 py-2 border rounded-lg text-sm ${formErrors.location ? 'border-red-400' : 'border-[#cbd5e1]'}`}
                 />
+                {formErrors.location && <p className="mt-1 text-xs text-red-600">{formErrors.location}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#0f172a] mb-2">Category *</label>
                 <input
                   type="text"
-                  required
                   value={formData.category}
-                  onChange={(e) => setFormData({...formData, category: e.target.value})}
+                  onChange={(e) => { setFormData({...formData, category: e.target.value}); setFormErrors(prev => ({...prev, category: ''})); }}
                   placeholder="e.g., Broken Projector, Network Down"
-                  className="w-full px-3 py-2 border border-[#cbd5e1] rounded-lg text-sm"
+                  className={`w-full px-3 py-2 border rounded-lg text-sm ${formErrors.category ? 'border-red-400' : 'border-[#cbd5e1]'}`}
                 />
+                {formErrors.category && <p className="mt-1 text-xs text-red-600">{formErrors.category}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-[#0f172a] mb-2">Description *</label>
                 <textarea
-                  required
                   value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  placeholder="Describe the issue in detail..."
+                  onChange={(e) => { setFormData({...formData, description: e.target.value}); setFormErrors(prev => ({...prev, description: ''})); }}
+                  placeholder="Describe the issue in detail (minimum 10 characters)..."
                   rows={4}
-                  className="w-full px-3 py-2 border border-[#cbd5e1] rounded-lg text-sm font-medium"
+                  className={`w-full px-3 py-2 border rounded-lg text-sm font-medium ${formErrors.description ? 'border-red-400' : 'border-[#cbd5e1]'}`}
                 />
+                {formErrors.description && <p className="mt-1 text-xs text-red-600">{formErrors.description}</p>}
               </div>
 
               <div>
