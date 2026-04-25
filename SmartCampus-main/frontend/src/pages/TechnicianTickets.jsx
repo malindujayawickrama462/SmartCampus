@@ -73,7 +73,7 @@ const TechnicianTickets = () => {
       setNewComment('');
       toast.success('Comment added');
     } catch (err) {
-      toast.error('Failed to add comment');
+      toast.error(err.response?.data?.message || 'Failed to add comment');
     }
   };
 

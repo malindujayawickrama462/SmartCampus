@@ -113,7 +113,7 @@ public class TicketService {
         
         // Workflow validation
         TicketStatus currentStatus = ticket.getStatus();
-        if (currentStatus == TicketStatus.CLOSED) {
+        if (currentStatus == TicketStatus.CLOSED || currentStatus == TicketStatus.REJECTED) {
             throw new BadRequestException("Cannot update a closed ticket");
         }
         
@@ -136,7 +136,9 @@ public class TicketService {
         User technician = userRepository.findById(technicianId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
         
-        System.out.println("💾 TicketService.assign - Ticket ID: " + ticketId + " | Reporter ID: " + (ticket.getReporter() != null ? ticket.getReporter().getId() : "NULL"));
+        if (ticket.getStatus() == TicketStatus.CLOSED || ticket.getStatus() == TicketStatus.REJECTED) {
+            throw new BadRequestException("Cannot update a closed ticket");
+        }
         
         ticket.setAssignee(technician);
         if (ticket.getStatus() == TicketStatus.OPEN) {

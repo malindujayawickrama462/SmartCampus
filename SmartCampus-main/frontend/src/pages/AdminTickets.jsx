@@ -83,6 +83,11 @@ export default function AdminTickets() {
   };
 
   const handleUpdateStatus = async () => {
+    if (selectedTicket.status === 'CLOSED' || selectedTicket.status === 'REJECTED') {
+      toast.error('Cannot update a closed ticket');
+      return;
+    }
+
     if (!statusForm.status) {
       toast.error('Please select a status');
       return;
@@ -108,6 +113,11 @@ export default function AdminTickets() {
   };
 
   const handleAssignTechnician = async () => {
+    if (selectedTicket.status === 'CLOSED' || selectedTicket.status === 'REJECTED') {
+      toast.error('Cannot update a closed ticket');
+      return;
+    }
+
     if (!assignForm.technicianId) {
       toast.error('Please select a technician');
       return;
@@ -122,7 +132,7 @@ export default function AdminTickets() {
       setAssignForm({ technicianId: '' });
       toast.success('Technician assigned');
     } catch (err) {
-      toast.error('Failed to assign technician');
+      toast.error(err.response?.data?.message || 'Failed to assign technician');
     }
   };
 
