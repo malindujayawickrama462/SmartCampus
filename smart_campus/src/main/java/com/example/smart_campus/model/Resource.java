@@ -1,6 +1,7 @@
 package com.example.smart_campus.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalTime;
 
 @Entity
@@ -11,24 +12,32 @@ public class Resource {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Resource name is required")
+    @Size(min = 2, max = 150, message = "Name must be between 2 and 150 characters")
     @Column(nullable = false)
     private String name;
 
+    @NotNull(message = "Resource type is required")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResourceType type;
 
+    @Min(value = 1, message = "Capacity must be at least 1")
     private Integer capacity;
 
+    @NotBlank(message = "Location is required")
+    @Size(min = 2, max = 200, message = "Location must be between 2 and 200 characters")
     @Column(nullable = false)
     private String location;
 
+    @Size(max = 1000, message = "Description cannot exceed 1000 characters")
     private String description;
 
     // Availability window (daily)
     private LocalTime availableFrom;
     private LocalTime availableTo;
 
+    @NotNull(message = "Resource status is required")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ResourceStatus status;

@@ -15,6 +15,7 @@ export default function ResourceManagement() {
     description: '',
     status: 'ACTIVE',
   });
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     fetchResources();
@@ -57,18 +58,35 @@ export default function ResourceManagement() {
     setForm({ name: '', type: 'LECTURE_HALL', capacity: '', location: '', description: '', status: 'ACTIVE' });
   };
 
-  const handleSave = async () => {
-    if (!form.name || !form.location) {
-      toast.error('Name and location are required');
-      return;
+  const validateResource = () => {
+    const errors = {};
+    if (!form.name.trim()) {
+      errors.name = 'Name is required';
+    } else if (form.name.trim().length < 2) {
+      errors.name = 'Name must be at least 2 characters';
     }
+    if (!form.location.trim()) {
+      errors.location = 'Location is required';
+    } else if (form.location.trim().length < 2) {
+      errors.location = 'Location must be at least 2 characters';
+    }
+    if (form.capacity && Number(form.capacity) < 1) {
+      errors.capacity = 'Capacity must be at least 1';
+    }
+    return errors;
+  };
+
+  const handleSave = async () => {
+    const validationErrors = validateResource();
+    setFormErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) return;
 
     try {
       const payload = {
-        name: form.name,
+        name: form.name.trim(),
         type: form.type,
         capacity: form.capacity ? Number(form.capacity) : null,
-        location: form.location,
+        location: form.location.trim(),
         description: form.description || null,
         status: form.status,
       };
@@ -83,7 +101,12 @@ export default function ResourceManagement() {
       fetchResources();
       handleCancel();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Failed to save resource');
+      const data = err.response?.data;
+      if (data?.fieldErrors) {
+        setFormErrors(data.fieldErrors);
+      } else {
+        toast.error(data?.message || 'Failed to save resource');
+      }
     }
   };
 
@@ -126,9 +149,10 @@ export default function ResourceManagement() {
               <input
                 type="text"
                 value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"
+                onChange={(e) => { setForm({ ...form, name: e.target.value }); setFormErrors(prev => ({...prev, name: ''})); }}
+                className={`mt-1 w-full rounded-lg border p-2 text-sm ${formErrors.name ? 'border-red-400' : 'border-slate-300'}`}
               />
+              {formErrors.name && <p className="mt-1 text-xs text-red-600">{formErrors.name}</p>}
             </div>
             <div>
               <label className="block text-sm font-semibold text-slate-700">Type</label>
@@ -148,18 +172,20 @@ export default function ResourceManagement() {
               <input
                 type="text"
                 value={form.location}
-                onChange={(e) => setForm({ ...form, location: e.target.value })}
-                className="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"
+                onChange={(e) => { setForm({ ...form, location: e.target.value }); setFormErrors(prev => ({...prev, location: ''})); }}
+                className={`mt-1 w-full rounded-lg border p-2 text-sm ${formErrors.location ? 'border-red-400' : 'border-slate-300'}`}
               />
+              {formErrors.location && <p className="mt-1 text-xs text-red-600">{formErrors.location}</p>}
             </div>
             <div>
               <label className="block text-sm font-semibold text-slate-700">Capacity</label>
               <input
                 type="number"
                 value={form.capacity}
-                onChange={(e) => setForm({ ...form, capacity: e.target.value })}
-                className="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"
+                onChange={(e) => { setForm({ ...form, capacity: e.target.value }); setFormErrors(prev => ({...prev, capacity: ''})); }}
+                className={`mt-1 w-full rounded-lg border p-2 text-sm ${formErrors.capacity ? 'border-red-400' : 'border-slate-300'}`}
               />
+              {formErrors.capacity && <p className="mt-1 text-xs text-red-600">{formErrors.capacity}</p>}
             </div>
             <div className="col-span-2">
               <label className="block text-sm font-semibold text-slate-700">Description</label>

@@ -1,6 +1,8 @@
 package com.example.smart_campus.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,12 +13,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please provide a valid email address")
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotBlank(message = "Name is required")
+    @Size(min = 2, max = 100, message = "Name must be between 2 and 100 characters")
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
+    @Size(min = 6, message = "Password must be at least 6 characters")
     @Column
     private String password;
 
@@ -31,12 +39,15 @@ public class User {
 
     private String providerId;
 
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private boolean active = true;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public User() {}
 
-    public User(Long id, String email, String name, String password, String avatarUrl, Role role, String provider, String providerId, LocalDateTime createdAt) {
+    public User(Long id, String email, String name, String password, String avatarUrl, Role role, String provider, String providerId, boolean active, LocalDateTime createdAt) {
         this.id = id;
         this.email = email;
         this.name = name;
@@ -45,12 +56,14 @@ public class User {
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
+        this.active = active;
         this.createdAt = createdAt;
     }
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        if (!active) active = true; // default active on creation
     }
 
     // Getters and Setters
@@ -70,6 +83,8 @@ public class User {
     public void setProvider(String provider) { this.provider = provider; }
     public String getProviderId() { return providerId; }
     public void setProviderId(String providerId) { this.providerId = providerId; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
@@ -87,6 +102,7 @@ public class User {
         private Role role;
         private String provider;
         private String providerId;
+        private boolean active = true;
         private LocalDateTime createdAt;
 
         public UserBuilder id(Long id) { this.id = id; return this; }
@@ -97,10 +113,11 @@ public class User {
         public UserBuilder role(Role role) { this.role = role; return this; }
         public UserBuilder provider(String provider) { this.provider = provider; return this; }
         public UserBuilder providerId(String providerId) { this.providerId = providerId; return this; }
+        public UserBuilder active(boolean active) { this.active = active; return this; }
         public UserBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
 
         public User build() {
-            return new User(id, email, name, password, avatarUrl, role, provider, providerId, createdAt);
+            return new User(id, email, name, password, avatarUrl, role, provider, providerId, active, createdAt);
         }
     }
 }

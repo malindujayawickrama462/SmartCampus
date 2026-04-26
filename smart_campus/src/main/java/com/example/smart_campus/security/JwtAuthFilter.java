@@ -36,6 +36,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (jwtUtils.validateToken(token)) {
                 String email = jwtUtils.getEmailFromToken(token);
                 userRepository.findByEmail(email).ifPresent(user -> {
+                    // Block deactivated users
+                    if (!user.isActive()) {
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        response.setContentType("application/json");
+                        try {
+                            response.getWriter().write("{\"error\":\"Account has been deactivated. Contact an administrator.\"}");
+                        } catch (IOException ignored) {}
+                        return;
+                    }
                     String role = "ROLE_" + user.getRole().name();
                     UsernamePasswordAuthenticationToken auth =
                             new UsernamePasswordAuthenticationToken(

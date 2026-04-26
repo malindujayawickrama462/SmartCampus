@@ -26,7 +26,7 @@ public class Notification {
     private String details; // Additional details for the notification
 
     @Column(nullable = false)
-    private boolean isRead;
+    private boolean read;
 
     private Long referenceId; // bookingId or ticketId
 
@@ -43,12 +43,16 @@ public class Notification {
 
     public Notification() {}
 
+<<<<<<< HEAD
     public Notification(Long id, User user, NotificationType type, String message, boolean isRead, Long referenceId, LocalDateTime createdAt) {
+=======
+    public Notification(Long id, User user, String type, String message, boolean read, Long referenceId, LocalDateTime createdAt) {
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         this.id = id;
         this.user = user;
         this.type = type;
         this.message = message;
-        this.isRead = isRead;
+        this.read = read;
         this.referenceId = referenceId;
         this.createdAt = createdAt;
         this.severity = type.getSeverity();
@@ -57,10 +61,14 @@ public class Notification {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+<<<<<<< HEAD
         isRead = false;
         if (severity == null && type != null) {
             severity = type.getSeverity();
         }
+=======
+        read = false;
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
     }
 
     // Getters and Setters
@@ -75,6 +83,7 @@ public class Notification {
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
+<<<<<<< HEAD
 
     public String getDetails() { return details; }
     public void setDetails(String details) { this.details = details; }
@@ -87,6 +96,10 @@ public class Notification {
         }
     }
 
+=======
+    public boolean isRead() { return read; }
+    public void setRead(boolean read) { this.read = read; }
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
     public Long getReferenceId() { return referenceId; }
     public void setReferenceId(Long referenceId) { this.referenceId = referenceId; }
 
@@ -112,8 +125,12 @@ public class Notification {
         private User user;
         private NotificationType type;
         private String message;
+<<<<<<< HEAD
         private String details;
         private boolean isRead;
+=======
+        private boolean read;
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         private Long referenceId;
         private LocalDateTime createdAt;
         private String actionUrl;
@@ -123,14 +140,19 @@ public class Notification {
         public NotificationBuilder user(User user) { this.user = user; return this; }
         public NotificationBuilder type(NotificationType type) { this.type = type; return this; }
         public NotificationBuilder message(String message) { this.message = message; return this; }
+<<<<<<< HEAD
         public NotificationBuilder details(String details) { this.details = details; return this; }
         public NotificationBuilder isRead(boolean isRead) { this.isRead = isRead; return this; }
+=======
+        public NotificationBuilder read(boolean read) { this.read = read; return this; }
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         public NotificationBuilder referenceId(Long referenceId) { this.referenceId = referenceId; return this; }
         public NotificationBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
         public NotificationBuilder actionUrl(String actionUrl) { this.actionUrl = actionUrl; return this; }
         public NotificationBuilder severity(String severity) { this.severity = severity; return this; }
 
         public Notification build() {
+<<<<<<< HEAD
             Notification notification = new Notification(id, user, type, message, isRead, referenceId, createdAt);
             notification.setDetails(details);
             notification.setActionUrl(actionUrl);
@@ -138,6 +160,9 @@ public class Notification {
                 notification.setSeverity(severity);
             }
             return notification;
+=======
+            return new Notification(id, user, type, message, read, referenceId, createdAt);
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         }
     }
 }

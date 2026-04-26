@@ -1,6 +1,7 @@
 package com.example.smart_campus.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +26,22 @@ public class Ticket {
     @JoinColumn(name = "assignee_id")
     private User assignee;
 
+    @NotBlank(message = "Location is required")
+    @Size(min = 2, max = 200, message = "Location must be between 2 and 200 characters")
     @Column(nullable = false)
     private String location;
 
+    @NotBlank(message = "Category is required")
+    @Size(min = 2, max = 100, message = "Category must be between 2 and 100 characters")
     @Column(nullable = false)
     private String category;
 
+    @NotBlank(message = "Description is required")
+    @Size(min = 10, max = 2000, message = "Description must be between 10 and 2000 characters")
     @Column(nullable = false, length = 2000)
     private String description;
 
+    @NotNull(message = "Priority is required")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TicketPriority priority;

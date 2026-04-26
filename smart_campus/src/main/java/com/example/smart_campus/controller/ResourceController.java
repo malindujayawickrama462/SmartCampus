@@ -53,7 +53,7 @@ public class ResourceController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Resource> update(@PathVariable Long id,
-                                            @RequestBody Resource updates) {
+                                            @Valid @RequestBody Resource updates) {
         return ResponseEntity.ok(resourceService.update(id, updates));
     }
 

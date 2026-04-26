@@ -2,29 +2,42 @@ package com.example.smart_campus.service;
 
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.NotificationRepository;
+<<<<<<< HEAD
 import com.example.smart_campus.repository.UserRepository;
+=======
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
+<<<<<<< HEAD
     private final UserRepository userRepository;
 
     public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository) {
         this.notificationRepository = notificationRepository;
         this.userRepository = userRepository;
+=======
+    private final SimpMessagingTemplate messagingTemplate;
+
+    public NotificationService(NotificationRepository notificationRepository,
+                                SimpMessagingTemplate messagingTemplate) {
+        this.notificationRepository = notificationRepository;
+        this.messagingTemplate = messagingTemplate;
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
     }
 
     public List<Notification> getMyNotifications(Long userId) {
-        return notificationRepository.findByUserIdOrderByCreatedAtDesc(userId);
+        return notificationRepository.findByUser_IdOrderByCreatedAtDesc(userId);
     }
 
     public long getUnreadCount(Long userId) {
-        return notificationRepository.countByUserIdAndIsReadFalse(userId);
+        return notificationRepository.countByUser_IdAndReadFalse(userId);
     }
 
     @Transactional
@@ -56,6 +69,7 @@ public class NotificationService {
     @Transactional
     public void notifyBookingCreated(Booking booking) {
         Notification notification = Notification.builder()
+<<<<<<< HEAD
                 .user(booking.getUser())
                 .type(NotificationType.BOOKING_CREATED)
                 .message("Your booking for " + booking.getResource().getName() + " has been submitted for approval")
@@ -63,8 +77,25 @@ public class NotificationService {
                 .referenceId(booking.getId())
                 .isRead(false)
                 .actionUrl("/bookings/" + booking.getId())
+=======
+                .user(user)
+                .type(type)
+                .message(message)
+                .referenceId(referenceId)
+                .read(false)
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
                 .build();
         notificationRepository.save(notification);
+
+        messagingTemplate.convertAndSend(
+            "/topic/notifications/" + user.getId(),
+            Map.of(
+                "id", notification.getId() != null ? notification.getId() : 0L,
+                "type", type,
+                "message", message,
+                "referenceId", referenceId != null ? referenceId : 0L
+            )
+        );
     }
 
     @Transactional
@@ -140,10 +171,11 @@ public class NotificationService {
 
     @Transactional
     public void markAllAsRead(Long userId) {
-        List<Notification> unread = notificationRepository.findByUserIdAndIsReadFalse(userId);
+        List<Notification> unread = notificationRepository.findByUser_IdAndReadFalse(userId);
         unread.forEach(n -> n.setRead(true));
         notificationRepository.saveAll(unread);
     }
+<<<<<<< HEAD
 
     private String generateActionUrl(NotificationType type, Long referenceId) {
         if (referenceId == null) return "/notifications";
@@ -159,3 +191,6 @@ public class NotificationService {
         };
     }
 }
+=======
+}
+>>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919

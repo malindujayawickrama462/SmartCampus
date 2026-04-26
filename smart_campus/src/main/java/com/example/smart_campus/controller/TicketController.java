@@ -68,7 +68,7 @@ public class TicketController {
 
     // POST /api/tickets - Create ticket with optional images (multipart)
     @PostMapping(consumes = "multipart/form-data")
-    public ResponseEntity<Ticket> create(
+    public ResponseEntity<?> create(
             @RequestParam String location,
             @RequestParam String category,
             @RequestParam String description,
@@ -78,14 +78,36 @@ public class TicketController {
             @RequestPart(required = false) List<MultipartFile> images,
             @AuthenticationPrincipal User user) throws IOException {
 
+        // Manual validation for multipart fields
+        java.util.Map<String, String> errors = new java.util.LinkedHashMap<>();
+        if (location == null || location.trim().isEmpty()) {
+            errors.put("location", "Location is required");
+        } else if (location.trim().length() < 2) {
+            errors.put("location", "Location must be at least 2 characters");
+        }
+        if (category == null || category.trim().isEmpty()) {
+            errors.put("category", "Category is required");
+        } else if (category.trim().length() < 2) {
+            errors.put("category", "Category must be at least 2 characters");
+        }
+        if (description == null || description.trim().isEmpty()) {
+            errors.put("description", "Description is required");
+        } else if (description.trim().length() < 10) {
+            errors.put("description", "Description must be at least 10 characters");
+        }
+        if (!errors.isEmpty()) {
+            return ResponseEntity.badRequest().body(
+                java.util.Map.of("error", "Validation failed", "fieldErrors", errors));
+        }
+
         Resource resource = resourceId != null
                 ? resourceRepository.findById(resourceId).orElse(null)
                 : null;
 
         Ticket ticket = Ticket.builder()
-                .location(location)
-                .category(category)
-                .description(description)
+                .location(location.trim())
+                .category(category.trim())
+                .description(description.trim())
                 .priority(priority)
                 .contactDetails(contactDetails)
                 .resource(resource)
