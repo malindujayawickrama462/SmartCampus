@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -86,31 +87,30 @@ public class BookingController {
     // POST /api/bookings - Create a booking request
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Booking booking,
-                                          @AuthenticationPrincipal User user) {
-<<<<<<< HEAD
+                                           @AuthenticationPrincipal User user) {
         // Check concurrent booking limits (max 5 concurrent bookings)
         Integer concurrentCount = bookingService.getActiveConcurrentBookings(user.getId());
         if (concurrentCount >= 5) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(null); // or return a proper error response
+                    .body(Map.of("error", "Booking limit exceeded", "message", "You have reached the maximum of 5 concurrent active bookings."));
         }
 
-=======
         // Manual validation: endTime must be after startTime
         if (booking.getStartTime() != null && booking.getEndTime() != null
                 && !booking.getEndTime().isAfter(booking.getStartTime())) {
             return ResponseEntity.badRequest().body(
-                java.util.Map.of("error", "Validation failed",
-                    "fieldErrors", java.util.Map.of("endTime", "End time must be after start time")));
+                Map.of("error", "Validation failed",
+                    "fieldErrors", Map.of("endTime", "End time must be after start time")));
         }
+        
         // Manual validation: bookingDate must not be in the past
         if (booking.getBookingDate() != null
-                && booking.getBookingDate().isBefore(java.time.LocalDate.now())) {
+                && booking.getBookingDate().isBefore(LocalDate.now())) {
             return ResponseEntity.badRequest().body(
-                java.util.Map.of("error", "Validation failed",
-                    "fieldErrors", java.util.Map.of("bookingDate", "Booking date cannot be in the past")));
+                Map.of("error", "Validation failed",
+                    "fieldErrors", Map.of("bookingDate", "Booking date cannot be in the past")));
         }
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
+
         booking.setUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookingService.createBooking(booking));
     }

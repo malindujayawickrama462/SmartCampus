@@ -17,37 +17,33 @@ public class Notification {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private NotificationType type; // Using enum instead of String
+    private NotificationType type;
 
     @Column(nullable = false)
     private String message;
 
     @Column(columnDefinition = "TEXT")
-    private String details; // Additional details for the notification
+    private String details;
 
     @Column(nullable = false)
     private boolean read;
 
-    private Long referenceId; // bookingId or ticketId
+    private Long referenceId;
 
     @Column
-    private String actionUrl; // URL to navigate to when clicking notification
+    private String actionUrl;
 
     @Column
-    private String severity; // info, success, warning, error
+    private String severity;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    private LocalDateTime readAt; // Timestamp when notification was marked as read
+    private LocalDateTime readAt;
 
     public Notification() {}
 
-<<<<<<< HEAD
-    public Notification(Long id, User user, NotificationType type, String message, boolean isRead, Long referenceId, LocalDateTime createdAt) {
-=======
-    public Notification(Long id, User user, String type, String message, boolean read, Long referenceId, LocalDateTime createdAt) {
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
+    public Notification(Long id, User user, NotificationType type, String message, boolean read, Long referenceId, LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.type = type;
@@ -55,20 +51,19 @@ public class Notification {
         this.read = read;
         this.referenceId = referenceId;
         this.createdAt = createdAt;
-        this.severity = type.getSeverity();
+        if (type != null) {
+            this.severity = type.getSeverity();
+        }
     }
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-<<<<<<< HEAD
-        isRead = false;
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
         if (severity == null && type != null) {
             severity = type.getSeverity();
         }
-=======
-        read = false;
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
     }
 
     // Getters and Setters
@@ -79,27 +74,27 @@ public class Notification {
     public void setUser(User user) { this.user = user; }
 
     public NotificationType getType() { return type; }
-    public void setType(NotificationType type) { this.type = type; }
+    public void setType(NotificationType type) { 
+        this.type = type; 
+        if (type != null) {
+            this.severity = type.getSeverity();
+        }
+    }
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
-<<<<<<< HEAD
 
     public String getDetails() { return details; }
     public void setDetails(String details) { this.details = details; }
 
-    public boolean isRead() { return isRead; }
+    public boolean isRead() { return read; }
     public void setRead(boolean read) { 
-        isRead = read;
+        this.read = read;
         if (read && readAt == null) {
             readAt = LocalDateTime.now();
         }
     }
 
-=======
-    public boolean isRead() { return read; }
-    public void setRead(boolean read) { this.read = read; }
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
     public Long getReferenceId() { return referenceId; }
     public void setReferenceId(Long referenceId) { this.referenceId = referenceId; }
 
@@ -125,12 +120,8 @@ public class Notification {
         private User user;
         private NotificationType type;
         private String message;
-<<<<<<< HEAD
         private String details;
         private boolean isRead;
-=======
-        private boolean read;
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         private Long referenceId;
         private LocalDateTime createdAt;
         private String actionUrl;
@@ -140,19 +131,14 @@ public class Notification {
         public NotificationBuilder user(User user) { this.user = user; return this; }
         public NotificationBuilder type(NotificationType type) { this.type = type; return this; }
         public NotificationBuilder message(String message) { this.message = message; return this; }
-<<<<<<< HEAD
         public NotificationBuilder details(String details) { this.details = details; return this; }
         public NotificationBuilder isRead(boolean isRead) { this.isRead = isRead; return this; }
-=======
-        public NotificationBuilder read(boolean read) { this.read = read; return this; }
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         public NotificationBuilder referenceId(Long referenceId) { this.referenceId = referenceId; return this; }
         public NotificationBuilder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
         public NotificationBuilder actionUrl(String actionUrl) { this.actionUrl = actionUrl; return this; }
         public NotificationBuilder severity(String severity) { this.severity = severity; return this; }
 
         public Notification build() {
-<<<<<<< HEAD
             Notification notification = new Notification(id, user, type, message, isRead, referenceId, createdAt);
             notification.setDetails(details);
             notification.setActionUrl(actionUrl);
@@ -160,9 +146,6 @@ public class Notification {
                 notification.setSeverity(severity);
             }
             return notification;
-=======
-            return new Notification(id, user, type, message, read, referenceId, createdAt);
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
         }
     }
 }

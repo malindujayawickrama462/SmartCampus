@@ -2,11 +2,8 @@ package com.example.smart_campus.service;
 
 import com.example.smart_campus.model.*;
 import com.example.smart_campus.repository.NotificationRepository;
-<<<<<<< HEAD
 import com.example.smart_campus.repository.UserRepository;
-=======
 import org.springframework.messaging.simp.SimpMessagingTemplate;
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -16,20 +13,15 @@ import java.util.Map;
 public class NotificationService {
 
     private final NotificationRepository notificationRepository;
-<<<<<<< HEAD
     private final UserRepository userRepository;
-
-    public NotificationService(NotificationRepository notificationRepository, UserRepository userRepository) {
-        this.notificationRepository = notificationRepository;
-        this.userRepository = userRepository;
-=======
     private final SimpMessagingTemplate messagingTemplate;
 
-    public NotificationService(NotificationRepository notificationRepository,
-                                SimpMessagingTemplate messagingTemplate) {
+    public NotificationService(NotificationRepository notificationRepository, 
+                               UserRepository userRepository,
+                               SimpMessagingTemplate messagingTemplate) {
         this.notificationRepository = notificationRepository;
+        this.userRepository = userRepository;
         this.messagingTemplate = messagingTemplate;
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
     }
 
     public List<Notification> getMyNotifications(Long userId) {
@@ -53,6 +45,8 @@ public class NotificationService {
                     .actionUrl(generateActionUrl(notificationType, referenceId))
                     .build();
             notificationRepository.save(notification);
+            
+            sendWebSocketNotification(user, type, message, referenceId, notification.getId());
         } catch (IllegalArgumentException e) {
             // Fallback for legacy string types
             Notification notification = Notification.builder()
@@ -63,13 +57,28 @@ public class NotificationService {
                     .isRead(false)
                     .build();
             notificationRepository.save(notification);
+            
+            sendWebSocketNotification(user, "SYSTEM_MESSAGE", message, referenceId, notification.getId());
+        }
+    }
+
+    private void sendWebSocketNotification(User user, String type, String message, Long referenceId, Long notificationId) {
+        if (messagingTemplate != null) {
+            messagingTemplate.convertAndSend(
+                "/topic/notifications/" + user.getId(),
+                Map.of(
+                    "id", notificationId != null ? notificationId : 0L,
+                    "type", type,
+                    "message", message,
+                    "referenceId", referenceId != null ? referenceId : 0L
+                )
+            );
         }
     }
 
     @Transactional
     public void notifyBookingCreated(Booking booking) {
         Notification notification = Notification.builder()
-<<<<<<< HEAD
                 .user(booking.getUser())
                 .type(NotificationType.BOOKING_CREATED)
                 .message("Your booking for " + booking.getResource().getName() + " has been submitted for approval")
@@ -77,25 +86,10 @@ public class NotificationService {
                 .referenceId(booking.getId())
                 .isRead(false)
                 .actionUrl("/bookings/" + booking.getId())
-=======
-                .user(user)
-                .type(type)
-                .message(message)
-                .referenceId(referenceId)
-                .read(false)
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
                 .build();
         notificationRepository.save(notification);
 
-        messagingTemplate.convertAndSend(
-            "/topic/notifications/" + user.getId(),
-            Map.of(
-                "id", notification.getId() != null ? notification.getId() : 0L,
-                "type", type,
-                "message", message,
-                "referenceId", referenceId != null ? referenceId : 0L
-            )
-        );
+        sendWebSocketNotification(booking.getUser(), "BOOKING_CREATED", notification.getMessage(), booking.getId(), notification.getId());
     }
 
     @Transactional
@@ -110,6 +104,8 @@ public class NotificationService {
                 .actionUrl("/bookings/" + booking.getId())
                 .build();
         notificationRepository.save(notification);
+        
+        sendWebSocketNotification(booking.getUser(), "BOOKING_APPROVED", notification.getMessage(), booking.getId(), notification.getId());
     }
 
     @Transactional
@@ -124,6 +120,8 @@ public class NotificationService {
                 .actionUrl("/bookings/" + booking.getId())
                 .build();
         notificationRepository.save(notification);
+        
+        sendWebSocketNotification(booking.getUser(), "BOOKING_REJECTED", notification.getMessage(), booking.getId(), notification.getId());
     }
 
     @Transactional
@@ -138,11 +136,12 @@ public class NotificationService {
                 .actionUrl("/bookings/" + booking.getId())
                 .build();
         notificationRepository.save(notification);
+        
+        sendWebSocketNotification(booking.getUser(), "BOOKING_CANCELLED", notification.getMessage(), booking.getId(), notification.getId());
     }
 
     @Transactional
     public void notifyAdminPendingBooking(Booking booking) {
-        // Get all admins
         List<User> admins = userRepository.findByRole(Role.ADMIN);
         
         for (User admin : admins) {
@@ -156,6 +155,8 @@ public class NotificationService {
                     .actionUrl("/admin/bookings/" + booking.getId())
                     .build();
             notificationRepository.save(notification);
+            
+            sendWebSocketNotification(admin, "ADMIN_BOOKING_PENDING", notification.getMessage(), booking.getId(), notification.getId());
         }
     }
 
@@ -175,7 +176,6 @@ public class NotificationService {
         unread.forEach(n -> n.setRead(true));
         notificationRepository.saveAll(unread);
     }
-<<<<<<< HEAD
 
     private String generateActionUrl(NotificationType type, Long referenceId) {
         if (referenceId == null) return "/notifications";
@@ -191,6 +191,3 @@ public class NotificationService {
         };
     }
 }
-=======
-}
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
