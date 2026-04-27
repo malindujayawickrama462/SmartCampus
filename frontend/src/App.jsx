@@ -15,10 +15,7 @@ import AdminTickets from './pages/AdminTickets';
 import AdminUsers from './pages/AdminUsers';
 import ResourceManagement from './pages/ResourceManagement';
 import Notifications from './pages/Notifications';
-<<<<<<< HEAD
-=======
 import Profile from './pages/Profile';
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -58,18 +55,21 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
+          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          {/* OAuth2 callback – receives ?token=...&refreshToken=... from backend */}
           <Route path="/oauth2/callback" element={<OAuthCallback />} />
+
+          {/* Protected routes */}
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
           <Route path="/bookings" element={<ProtectedRoute><Bookings /></ProtectedRoute>} />
           <Route path="/tickets" element={<ProtectedRoute><Tickets /></ProtectedRoute>} />
           <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
-<<<<<<< HEAD
-=======
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
->>>>>>> 5790bd8e3919f72408af9dd6590a2ac90f8d8919
+
+          {/* Admin routes */}
           <Route path="/admin/bookings" element={<AdminRoute><AdminBookings /></AdminRoute>} />
           <Route path="/admin/tickets" element={<AdminRoute><AdminTickets /></AdminRoute>} />
           <Route path="/admin/resources" element={<AdminRoute><ResourceManagement /></AdminRoute>} />

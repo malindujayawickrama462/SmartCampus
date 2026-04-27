@@ -194,7 +194,7 @@ public class BookingService {
         if (!user.getId().equals(userId) && user.getRole() != Role.ADMIN) {
             throw new ForbiddenException("Not authorized to view sessions");
         }
-        return userSessionRepository.findByUserAndActiveTrue(new User(userId, null, null, null, null, null, null, null, null));
+        return userSessionRepository.findByUserAndActiveTrue(User.builder().id(userId).build());
     }
 }
 

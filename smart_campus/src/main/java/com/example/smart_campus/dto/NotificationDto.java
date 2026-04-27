@@ -16,7 +16,7 @@ public class NotificationDto {
     public static NotificationDto from(Notification n) {
         NotificationDto dto = new NotificationDto();
         dto.setId(n.getId());
-        dto.setType(n.getType());
+        dto.setType(n.getType().name());
         dto.setMessage(n.getMessage());
         dto.setRead(n.isRead());
         dto.setReferenceId(n.getReferenceId());

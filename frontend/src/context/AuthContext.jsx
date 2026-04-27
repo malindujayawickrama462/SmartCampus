@@ -71,22 +71,20 @@ export const AuthProvider = ({ children }) => {
 
   const loginWithToken = async (token, refreshTok, sessionTok, deviceFingerprint = null) => {
     localStorage.setItem('token', token);
-    localStorage.setItem('refreshToken', refreshTok);
-    localStorage.setItem('sessionId', sessionTok);
-    if (deviceFingerprint) {
-      localStorage.setItem('deviceFingerprint', deviceFingerprint);
-    }
-    
-    setRefreshToken(refreshTok);
-    setSessionId(sessionTok);
-    
+    if (refreshTok) localStorage.setItem('refreshToken', refreshTok);
+    if (sessionTok) localStorage.setItem('sessionId', sessionTok);
+    if (deviceFingerprint) localStorage.setItem('deviceFingerprint', deviceFingerprint);
+
+    setRefreshToken(refreshTok ?? null);
+    setSessionId(sessionTok ?? null);
+
     try {
       const res = await api.get('/auth/me');
       setUser(res.data);
       startTokenRefreshTimer();
       return true;
     } catch (error) {
-      console.error("Login failed", error);
+      console.error('Login failed', error);
       logout();
       return false;
     }
